@@ -1,0 +1,4 @@
+
+class gradient {
+  static Color defoultColor = const Color(0xFF0F52BA);
+}
