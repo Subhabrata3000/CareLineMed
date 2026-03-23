@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/button.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/button.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 

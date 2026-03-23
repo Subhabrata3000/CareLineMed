@@ -1,19 +1,19 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
 import 'package:get/get.dart';
-import 'package:laundry/screen/bottombarpro_screen.dart';
-import 'package:laundry/screen/coupon_screen.dart';
-import 'package:laundry/screen/loream_screen.dart';
-import 'package:laundry/screen/my%20booking/mybooking_screen.dart';
-import 'package:laundry/screen/notification_screen.dart';
-import 'package:laundry/screen/shop/shop_coupon_screen.dart';
+import 'package:carelinemed/screen/bottombarpro_screen.dart';
+import 'package:carelinemed/screen/coupon_screen.dart';
+import 'package:carelinemed/screen/loream_screen.dart';
+import 'package:carelinemed/screen/my%20booking/mybooking_screen.dart';
+import 'package:carelinemed/screen/notification_screen.dart';
+import 'package:carelinemed/screen/shop/shop_coupon_screen.dart';
 import '../screen/add_location/addressdetails_screen.dart';
 import '../screen/add_location/deliveryaddress1.dart';
 import '../screen/add_location/deliveryaddress2.dart';
 import '../screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/profile_screen.dart';
-import 'package:laundry/screen/refer_earn_screen.dart';
-import 'package:laundry/screen/wallet/wallethistory_screen.dart';
+import 'package:carelinemed/screen/profile_screen.dart';
+import 'package:carelinemed/screen/refer_earn_screen.dart';
+import 'package:carelinemed/screen/wallet/wallethistory_screen.dart';
 
 class Routes {
   static String initial = "/";

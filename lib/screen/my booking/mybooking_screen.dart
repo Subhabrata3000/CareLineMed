@@ -1,16 +1,17 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/screen/my%20booking/booking_detail_screen.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/screen/my%20booking/booking_detail_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Api/data_store.dart';
 import '../../controller_doctor/book_list_controller.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import '../../utils/customwidget.dart';
 import '../chat/message.dart';
 
@@ -74,15 +75,17 @@ class _MyBookingScreenState extends State<MyBookingScreen>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
-        centerTitle: true,
         elevation: 0,
         automaticallyImplyLeading: false,
         leading: BackButton(
-          color: BlackColor,
+          color: WhiteColor,
           onPressed: () {
             Get.back();
           },
@@ -92,7 +95,6 @@ class _MyBookingScreenState extends State<MyBookingScreen>
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
             fontSize: 18,
-            color: BlackColor,
           ),
         ),
       ),

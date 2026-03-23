@@ -8,9 +8,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/controller_doctor/add_doctor_detail_controller.dart';
-import 'package:laundry/model_doctor/family_member_detail_model.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/controller_doctor/add_doctor_detail_controller.dart';
+import 'package:carelinemed/model_doctor/family_member_detail_model.dart';
 
 import '../Api/data_store.dart';
 import '../utils/customwidget.dart';

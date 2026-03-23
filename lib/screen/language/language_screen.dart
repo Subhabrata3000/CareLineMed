@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
+import 'package:carelinemed/Api/data_store.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -36,10 +37,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         leading: IconButton(
           onPressed: () {
@@ -47,7 +51,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
         title: Text(
@@ -55,7 +59,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
           style: TextStyle(
             fontSize: 17,
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
           ),
         ),
       ),

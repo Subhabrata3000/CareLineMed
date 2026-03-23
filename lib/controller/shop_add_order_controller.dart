@@ -24,10 +24,11 @@ class ShopAddOrderController extends GetxController implements GetxService {
     required num walletAmount,
     required String paymentId,
     required String transactionId,
+    List? productList,
   }) async{
 
     if(isLoad){
-      return;
+      return {"Result": false, "message": "Please wait..."};
     }else{
       isLoad = true;
     }
@@ -36,41 +37,54 @@ class ShopAddOrderController extends GetxController implements GetxService {
       "uid": uid,
       "doctor_id": sitterId,
       "tot_price": totalPrice,
-      "coupon": couponId,
+      "coupon": couponId == "" ? 0 : couponId,
       "coupon_amount": couponAmount,
       "site_commission": sitterCommission,
       "address": address,
       "wallet_amount": walletAmount,
-      "payment_id": paymentId,
-      "transactionId": transactionId,
+      "payment_id": paymentId == "16" ? 1 : paymentId,
+      "transactionId": transactionId == "" ? "TXN-${DateTime.now().millisecondsSinceEpoch}" : transactionId,
     };
 
+    if (productList != null) {
+      body["product_list"] = productList;
+    }
+
     Map<String, String> userHeader = {"Content-type": "application/json", "Accept": "application/json"};
-    var response = await http.post(Uri.parse(Config.baseUrlDoctor + Config.addOrderShop),body: jsonEncode(body),headers: userHeader);
+    try {
+      var response = await http.post(Uri.parse(Config.baseUrlDoctor + Config.addOrderShop),body: jsonEncode(body),headers: userHeader);
 
-    debugPrint("=========== shopAddOrder Api url ============ ${Config.baseUrlDoctor + Config.addOrderShop}");
-    debugPrint("========== shopAddOrder Api body ============ $body");
-    debugPrint("========= shopAddOrder Api respons ========== ${response.body}");
-    
-    var data = jsonDecode(response.body);
+      debugPrint("=========== shopAddOrder Api url ============ ${Config.baseUrlDoctor + Config.addOrderShop}");
+      debugPrint("========== shopAddOrder Api body ============ $body");
+      debugPrint("========= shopAddOrder Api respons ========== ${response.body}");
+      
+      var data = jsonDecode(response.body);
 
-    if(response.statusCode == 200){
-      if(data["Result"] == true){
+      if(response.statusCode == 200){
+        if(data["Result"] == true){
+          isLoad = false;
+          isCircle = false;
+          update();
+          return jsonDecode(response.body);
+        }else{
+          isLoad = false;
+          isCircle = false;
+          Fluttertoast.showToast(msg: "${data["message"]}");
+          update();
+          return jsonDecode(response.body);
+        }
+      }else{
         isLoad = false;
         isCircle = false;
+        Fluttertoast.showToast(msg: "Please update the content from the backend panel. It appears that the correct data was not uploaded, or there may be issues with the data that was added.");
         update();
-        return jsonDecode(response.body);
-      }else{
-        isCircle = false;
-        Fluttertoast.showToast(msg: "${data["message"]}");
-        update();
-        return jsonDecode(response.body);
+        return {"Result": false, "message": "Server error ${response.statusCode}"};
       }
-    }else{
+    } catch(e) {
+      isLoad = false;
       isCircle = false;
-      Fluttertoast.showToast(msg: "Please update the content from the backend panel. It appears that the correct data was not uploaded, or there may be issues with the data that was added.");
       update();
-      return jsonDecode(response.body);
+      return {"Result": false, "message": e.toString()};
     }
   }
 }

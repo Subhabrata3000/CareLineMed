@@ -2,13 +2,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/medicine_reminder_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/medicine_reminder/add_medicine_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/medicine_reminder_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/medicine_reminder/add_medicine_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class MedicineReminderScreen extends StatefulWidget {
   const MedicineReminderScreen({super.key});
@@ -28,12 +29,15 @@ class _MedicineReminderScreenState extends State<MedicineReminderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: bgcolor,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
         toolbarHeight: 70,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -41,20 +45,11 @@ class _MedicineReminderScreenState extends State<MedicineReminderScreen> {
             bottomRight: Radius.circular(20),
           ),
         ),
-        leading: Container(
-          height: 30,
-          margin: const EdgeInsets.only(left: 15),
-          width: 30,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            shape: BoxShape.circle,
-          ),
-          child: BackButton(
-            color: BlackColor,
-            onPressed: () {
-              Get.back();
-            },
-          ),
+        leading: BackButton(
+          color: WhiteColor,
+          onPressed: () {
+            Get.back();
+          },
         ),
         title: GetBuilder<MedicineReminderController>(
           builder: (medicineReminderController) {
@@ -63,14 +58,12 @@ class _MedicineReminderScreenState extends State<MedicineReminderScreen> {
                 ? ""
                 : medicineReminderController.medicineReminderListModel!.remiderList!.isEmpty ? "Drugs time".tr : "Drugs Reminder".tr,
               style: TextStyle(
-                color: BlackColor,
                 fontSize: 18,
                 fontFamily: FontFamily.gilroyBold,
               ),
             );
           }
         ),
-        centerTitle: true,
         actions: [
           InkWell(
             onTap: () {
@@ -82,12 +75,12 @@ class _MedicineReminderScreenState extends State<MedicineReminderScreen> {
               margin: EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.all(7),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: WhiteColor),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.add,
-                color: BlackColor,
+                color: WhiteColor,
               ),
             ),
           )

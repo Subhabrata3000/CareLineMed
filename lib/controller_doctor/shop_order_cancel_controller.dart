@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class ShopOrderCancelController extends GetxController {
 

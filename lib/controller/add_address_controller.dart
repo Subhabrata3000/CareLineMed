@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 import '../helpar/routes_helper.dart';
 
 class AddAddressController extends GetxController implements GetxService {

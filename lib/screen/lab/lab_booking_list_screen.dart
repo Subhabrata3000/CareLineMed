@@ -1,12 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:laundry/controller/lab_booking_list_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/lab/lab_package_complete_list.dart';
-import 'package:laundry/screen/lab/lab_package_pending_list.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/controller/lab_booking_list_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/lab/lab_package_complete_list.dart';
+import 'package:carelinemed/screen/lab/lab_package_pending_list.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class LabBookingListScreen extends StatefulWidget {
   const LabBookingListScreen({super.key});
@@ -30,6 +31,10 @@ class _LabBookingListScreenState extends State<LabBookingListScreen> with Single
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return WillPopScope(
       onWillPop: () async{
         return true;
@@ -37,12 +42,10 @@ class _LabBookingListScreenState extends State<LabBookingListScreen> with Single
       child: Scaffold(
         backgroundColor: bgcolor,
         appBar: AppBar(
-          backgroundColor: WhiteColor,
-          centerTitle: true,
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: BackButton(
-            color: BlackColor,
+            color: WhiteColor,
             onPressed: () {
               Get.back();
             },
@@ -52,7 +55,6 @@ class _LabBookingListScreenState extends State<LabBookingListScreen> with Single
             style: TextStyle(
               fontFamily: FontFamily.gilroyBold,
               fontSize: 18,
-              color: BlackColor,
             ),
           ),
         ),

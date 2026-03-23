@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import 'package:lottie/lottie.dart';
 
 Future couponSucsessFullyApplyed({required String couponAmt}) {

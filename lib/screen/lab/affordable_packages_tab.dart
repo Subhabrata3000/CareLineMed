@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/packages_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/lab/packge_detail_screen.dart';
-import 'package:laundry/screen/lab/popular_tests_tab.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/packages_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/screen/lab/packge_detail_screen.dart';
+import 'package:carelinemed/screen/lab/popular_tests_tab.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 
 class AffordablePackagesTab extends StatefulWidget {
   const AffordablePackagesTab({super.key, required this.categoryId, required this.labId});

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 
 import '../model_doctor/page_list_model.dart';
 
@@ -24,6 +24,13 @@ class PageListController extends GetxController implements GetxService {
     if(response.statusCode == 200){
       if(data["Result"] == true){
         pageListModel = pageListModelFromJson(response.body);
+        
+        if (pageListModel != null) {
+          for (var i = 0; i < pageListModel!.pagesData.length; i++) {
+              pageListModel!.pagesData[i].description = ""; 
+          }
+        }
+
         isLoading = true;
         update();
 

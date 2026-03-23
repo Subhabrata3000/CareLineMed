@@ -1,13 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/screen/doctor_info_screen.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/screen/doctor_info_screen.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import '../controller_doctor/category_doctor_controller.dart';
 import '../widget/button.dart';
 
@@ -55,43 +56,26 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
   final double expandedHeight = 180;
 
   CategoryDoctorController categoryDoctorController = Get.put(CategoryDoctorController());
-
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () {
-            Get.back();
-          },
-          child: Container(
-            height: 35,
-            width: 35,
-            margin: const EdgeInsets.all(8),
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: const Color(0xFF000000).withOpacity(0.4),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.arrow_back,
-              color: WhiteColor,
-            ),
-          ),
-        ),
-        centerTitle: true,
+        leading: BackButton(color: WhiteColor),
         title: Text(
           widget.name,
           textAlign: TextAlign.start,
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
             letterSpacing: 0.4,
             fontFamily: FontFamily.gilroyBold,
             fontSize: 20,
+            color: WhiteColor,
           ),
         ),
       ),

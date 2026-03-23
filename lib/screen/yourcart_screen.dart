@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously, deprecated_member_use
 
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:laundry/controller/payment_controller/payfast_payment_controller.dart';
-import 'package:laundry/controller/payment_controller/senang_pay_controller.dart';
-import 'package:laundry/controller_doctor/home_controller.dart';
-import 'package:laundry/controller_doctor/succesee_controller.dart';
-import 'package:laundry/screen/sucsess_full_order.dart';
-import 'package:laundry/widget/button.dart';
-import 'package:laundry/widget/coupon_apply_sucsessfull.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/controller/payment_controller/payfast_payment_controller.dart';
+import 'package:carelinemed/controller/payment_controller/senang_pay_controller.dart';
+import 'package:carelinemed/controller_doctor/home_controller.dart';
+import 'package:carelinemed/controller_doctor/succesee_controller.dart';
+import 'package:carelinemed/screen/sucsess_full_order.dart';
+import 'package:carelinemed/widget/button.dart';
+import 'package:carelinemed/widget/coupon_apply_sucsessfull.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../Api/config.dart';
 import '../Api/data_store.dart';
@@ -32,7 +33,6 @@ import '../helpar/routes_helper.dart';
 import '../model/font_family_model.dart';
 import '../screen/paypal/flutter_paypal.dart';
 import '../utils/custom_colors.dart';
-import '../utils/customwidget.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../widget/add_pet_bottom.dart';
 import 'PaymentGateway/PaymentCard.dart';
@@ -140,6 +140,10 @@ class YourCartScreenState extends State<YourCartScreen> {
       cartDetailController.commission = cartDetailController.cartDetailModel!.commissionData.commisiionType == "fix"
           ? double.parse(cartDetailController.cartDetailModel!.commissionData.commissionRate)
           : widget.price * double.parse(cartDetailController.cartDetailModel!.commissionData.commissionRate) / 100;
+          
+      cartDetailController.serviceTax = widget.price * 0.15; // Calculate 15% GST
+      cartDetailController.total = widget.price + cartDetailController.serviceTax + cartDetailController.commission + cartDetailController.additionalPetCharge;
+      
       setState(() {});
 
       debugPrint("---------------- id ---------------- ${cartDetailController.cartDetailModel!.familyMember.first.id}");
@@ -248,6 +252,10 @@ class YourCartScreenState extends State<YourCartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return WillPopScope(
       onWillPop: () async {
         if (addOrderController.isOrderLoading != true) {
@@ -264,10 +272,13 @@ class YourCartScreenState extends State<YourCartScreen> {
         backgroundColor: bgcolor,
         appBar: AppBar(
           titleSpacing: 0,
-          backgroundColor: WhiteColor,
           elevation: 0,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
+          ),
           leading: BackButton(
-            color: BlackColor,
+            color: WhiteColor,
             onPressed: () {
               cartDetailController.addresTitle = "";
               if (addOrderController.isOrderLoading != true) {
@@ -283,9 +294,9 @@ class YourCartScreenState extends State<YourCartScreen> {
           title: Text(
             "Review & Pay".tr,
             style: TextStyle(
-              color: BlackColor,
               fontFamily: FontFamily.gilroyBold,
               fontSize: 18,
+              color: WhiteColor,
             ),
           ),
         ),
@@ -333,9 +344,7 @@ class YourCartScreenState extends State<YourCartScreen> {
                       borderRadius: BorderRadius.circular(15),
                       onPress: () {
                         if (familyMember.isNotEmpty) {
-                          cartDetailController.total == 0
-                              ? addOrderApi()
-                              : paymentSheet();
+                          paymentSheet();
                         } else {
                           Fluttertoast.showToast(msg: "Please Select Patient".tr);
                         }

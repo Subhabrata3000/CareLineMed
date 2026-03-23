@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/model/packages_model.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/model/packages_model.dart';
 import 'package:http/http.dart' as http;
 
 class PackagesController extends GetxController implements GetxService {

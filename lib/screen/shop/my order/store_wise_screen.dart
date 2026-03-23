@@ -1,9 +1,10 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/screen/shop/my%20order/view_image_screen.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/screen/shop/my%20order/view_image_screen.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 import '../../../Api/config.dart';
 import '../../../controller/shop_order_detail_controller.dart';
 import '../../../model/font_family_model.dart';
@@ -42,20 +43,22 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        leading: BackButton(color: BlackColor),
+        leading: BackButton(color: WhiteColor),
         title: Text(
           "${"Order ID:".tr} #${widget.orderId}",
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
             fontSize: 17,
           ),
         ),
         elevation: 0,
-        backgroundColor: WhiteColor,
       ),
       body: RefreshIndicator(
         color: gradient.defoultColor,

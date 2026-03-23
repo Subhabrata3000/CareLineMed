@@ -1,13 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/controller/lab_list_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/lab/packages_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/controller/lab_list_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/lab/packages_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class LabListScreen extends StatefulWidget {
   const LabListScreen({super.key, required this.categoryId, required this.category});
@@ -32,19 +33,25 @@ class _LabListScreenState extends State<LabListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         titleSpacing: 0,
-        iconTheme: IconThemeData(color: BlackColor),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text(
           "Certified Partner Labs".tr,
           maxLines: 1,
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
       ),

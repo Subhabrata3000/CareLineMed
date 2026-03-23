@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundry/screen/doctor_info_screen.dart';
+import 'package:carelinemed/screen/doctor_info_screen.dart';
 import '../../Api/config.dart';
 import '../../Api/data_store.dart';
 import '../../controller_doctor/map_sitter_controller.dart';
@@ -242,17 +242,22 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
+
     return GetBuilder<MapSitterController>(builder: (mapSitterController) {
       return Scaffold(
+        backgroundColor: bgcolor,
         appBar: AppBar(
-          backgroundColor: WhiteColor,
           elevation: 0,
           titleSpacing: 0,
           leading: Padding(
             padding: const EdgeInsets.symmetric(vertical: 13),
             child: SvgPicture.asset(
               "assets/bottomIcons/location.svg",
-              color: textcolor,
+              color: WhiteColor,
             ),
           ),
           centerTitle: false,
@@ -261,7 +266,6 @@ class _MapScreenState extends State<MapScreen> {
             maxLines: 1,
             style: TextStyle(
               fontFamily: FontFamily.gilroyBold,
-              color: BlackColor,
               fontSize: 17,
               overflow: TextOverflow.ellipsis,
             ),
@@ -274,7 +278,7 @@ class _MapScreenState extends State<MapScreen> {
             ? Container(
           width: Get.size.width,
           decoration: BoxDecoration(
-            color: WhiteColor,
+            color: Colors.transparent,
           ),
           child: Stack(
             children: [
@@ -338,9 +342,16 @@ class _MapScreenState extends State<MapScreen> {
                           width: Get.size.width,
                           margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: WhiteColor,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          color: WhiteColor,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: primeryColor.withOpacity(0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            )
+                          ],
+                        ),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(

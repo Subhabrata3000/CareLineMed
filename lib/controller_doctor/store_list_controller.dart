@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
 import '../Api/data_store.dart';
 import '../model_doctor/store_list_model.dart';
 

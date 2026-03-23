@@ -9,13 +9,13 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/screen/chat/chat_screen.dart';
-import 'package:laundry/screen/doctor_info_screen.dart';
-import 'package:laundry/screen/lab/packages_screen.dart';
-import 'package:laundry/screen/notification_screen.dart';
-import 'package:laundry/screen/shop/product.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/screen/chat/chat_screen.dart';
+import 'package:carelinemed/screen/doctor_info_screen.dart';
+import 'package:carelinemed/screen/lab/packages_screen.dart';
+import 'package:carelinemed/screen/notification_screen.dart';
+import 'package:carelinemed/screen/shop/product.dart';
 import '../controller_doctor/add_doctor_detail_controller.dart';
 import '../controller_doctor/home_controller.dart';
 import '../widget/add_pet_bottom.dart';
@@ -25,13 +25,14 @@ import 'bottombarpro_screen.dart';
 import 'category_screen.dart';
 import '../utils/custom_colors.dart';
 import 'home_search_screen.dart';
-import 'package:laundry/controller/lab_category_controller.dart';
-import 'package:laundry/screen/lab/lab_list_screen.dart';
-import 'package:laundry/controller_doctor/product_list_controller.dart';
-import 'package:laundry/screen/shop/product_details.dart';
-import 'package:laundry/screen/shop/shops.dart';
-import 'package:laundry/screen/lab/lab_category_screen.dart';
-import 'package:laundry/screen/map_pages/map_screen.dart';
+import 'package:carelinemed/controller/lab_category_controller.dart';
+import 'package:carelinemed/screen/lab/lab_list_screen.dart';
+import 'package:carelinemed/controller_doctor/product_list_controller.dart';
+import 'package:carelinemed/screen/shop/product_details.dart';
+import 'package:carelinemed/screen/shop/shops.dart';
+import 'package:carelinemed/screen/lab/lab_category_screen.dart';
+import 'package:carelinemed/screen/map_pages/map_screen.dart';
+import 'all_categories_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -256,13 +257,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildAnimatedSection({required int delay, required Widget child}) {
+    double begin = (delay / 1000).clamp(0.0, 0.99);
+    double end = ((delay + 400) / 1000).clamp(0.01, 1.0);
+    if (begin >= end) {
+      begin = end - 0.01;
+    }
+
     return FadeTransition(
       opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _contentAnimation,
           curve: Interval(
-            delay / 1000,
-            (delay + 400) / 1000,
+            begin,
+            end,
             curve: Curves.easeOut,
           ),
         ),
@@ -275,8 +282,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           CurvedAnimation(
             parent: _contentAnimation,
             curve: Interval(
-              delay / 1000,
-              (delay + 400) / 1000,
+              begin,
+              end,
               curve: Curves.easeOutCubic,
             ),
           ),
@@ -493,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             aspectRatio: 2.4,
             viewportFraction: 0.92,
             enlargeCenterPage: true,
-            autoPlay: true,
+            autoPlay: homeController.homeModel!.bannerData!.length > 1,
             onPageChanged: (index, reason) => setState(() => selectIndex = index),
           ),
           items: homeController.homeModel!.bannerData!.map((item) {
@@ -565,7 +572,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Our Services", style: AppDesign.headingLarge),
-              Text("See All", style: TextStyle(color: primeryColor, fontFamily: FontFamily.gilroyBold)),
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => const AllCategoriesScreen());
+                },
+                child: Text(
+                  "See All",
+                  style: TextStyle(
+                    color: primeryColor,
+                    fontFamily: FontFamily.gilroyBold,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -678,13 +696,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 left: 0, top: 0, bottom: 0,
                 child: Container(
                   width: 170,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Color(0xFFE3F2FD),
-                        Color(0xFFF1F8FF),
+                        primeryColor,
+                        accentColor,
                       ],
                     ),
                     borderRadius: BorderRadius.only(
@@ -747,7 +765,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         fontFamily: FontFamily.gilroyExtraBold,
                         fontSize: 24,
                         height: 1.05,
-                        color: const Color(0xFF0F2F5B),
+                        color: primeryColor,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -755,7 +773,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE8F5E9),
+                        color: primeryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -763,7 +781,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         style: TextStyle(
                           fontFamily: FontFamily.gilroyBold,
                           fontSize: 11,
-                          color: const Color(0xFF27AE60),
+                          color: primeryColor,
                         ),
                       ),
                     ),
@@ -775,7 +793,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: Container(
                         height: 28, width: 30,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0F2F5B),
+                          color: primeryColor,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -811,8 +829,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFFF9EEF9),
-                const Color(0xFFF3E5F5),
+                primeryColor.withOpacity(0.08),
+                accentColor.withOpacity(0.04),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -821,7 +839,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             border: Border.all(color: Colors.white, width: 2),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF4A154B).withOpacity(0.04),
+                color: primeryColor.withOpacity(0.04),
                 blurRadius: 15,
                 offset: const Offset(0, 6),
               ),
@@ -844,7 +862,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             fontFamily: FontFamily.gilroyMedium,
                             fontSize: 15,
                             letterSpacing: 0.3,
-                            color: const Color(0xFF4A154B).withOpacity(0.7),
+                            color: primeryColor.withOpacity(0.7),
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -853,7 +871,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           style: TextStyle(
                             fontFamily: FontFamily.gilroyExtraBold,
                             fontSize: 22,
-                            color: const Color(0xFF4A154B),
+                            color: primeryColor,
                             height: 1.1,
                           ),
                         ),
@@ -864,11 +882,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     height: 48,
                     width: 48,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF4A154B),
+                      color: primeryColor,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF4A154B).withOpacity(0.2),
+                          color: primeryColor.withOpacity(0.2),
                           blurRadius: 8,
                           offset: const Offset(0, 3),
                         ),
@@ -970,21 +988,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFFFF3E0), Color(0xFFFFE0B2)],
+            colors: [accentColor.withOpacity(0.1), primeryColor.withOpacity(0.05)],
           ),
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFFF9800).withOpacity(0.08), blurRadius: 15, offset: const Offset(0, 6)),
+            BoxShadow(color: primeryColor.withOpacity(0.08), blurRadius: 15, offset: const Offset(0, 6)),
           ],
-          border: Border.all(color: const Color(0xFFFFB74D).withOpacity(0.3), width: 1.5),
+          border: Border.all(color: primeryColor.withOpacity(0.15), width: 1.5),
         ),
         child: Stack(
           children: [
-            Positioned(top: -50, right: -30, child: Container(width: 120, height: 120, decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFFFF9800).withOpacity(0.08)))),
-            Positioned(bottom: -20, left: -20, child: Container(width: 80, height: 80, decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFFFFB74D).withOpacity(0.1)))),
+            Positioned(top: -50, right: -30, child: Container(width: 120, height: 120, decoration: BoxDecoration(shape: BoxShape.circle, color: primeryColor.withOpacity(0.04)))),
+            Positioned(bottom: -20, left: -20, child: Container(width: 80, height: 80, decoration: BoxDecoration(shape: BoxShape.circle, color: accentColor.withOpacity(0.06)))),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -997,13 +1015,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
-                            colors: [Color(0xFFFF9800), Color(0xFFFF6F00)],
+                            colors: [primeryColor, accentColor],
                           ),
                           borderRadius: BorderRadius.circular(16),
-                          boxShadow: [BoxShadow(color: const Color(0xFFFF9800).withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 3))],
+                          boxShadow: [BoxShadow(color: primeryColor.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 3))],
                         ),
                         child: const Icon(Icons.home_work_rounded, color: Colors.white, size: 28),
                       ),
@@ -1014,13 +1032,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: [
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(color: const Color(0xFFFF9800), borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: primeryColor, borderRadius: BorderRadius.circular(8)),
                               child: Text("SPECIAL OFFER", style: TextStyle(fontFamily: FontFamily.gilroyBold, fontSize: 10, color: Colors.white, letterSpacing: 0.5)),
                             ),
                             const SizedBox(height: 6),
-                            Text("Home Sample Collection", style: TextStyle(fontFamily: FontFamily.gilroyExtraBold, fontSize: 18, color: const Color(0xFF4E342E), height: 1.2)),
+                            Text("Home Sample Collection", style: TextStyle(fontFamily: FontFamily.gilroyExtraBold, fontSize: 18, color: const Color(0xFF0F2F5B), height: 1.2)),
                             const SizedBox(height: 2),
-                            Text("Certified Labs • No Extra Fees", style: TextStyle(fontFamily: FontFamily.gilroyMedium, fontSize: 13, color: const Color(0xFF795548))),
+                            Text("Certified Labs • No Extra Fees", style: TextStyle(fontFamily: FontFamily.gilroyMedium, fontSize: 13, color: primeryColor.withOpacity(0.8))),
                           ],
                         ),
                       ),
@@ -1106,10 +1124,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                        decoration: BoxDecoration(color: const Color(0xFFE3F2FD), borderRadius: BorderRadius.circular(6)),
-                        child: Text("Certified", style: TextStyle(fontFamily: FontFamily.gilroyBold, fontSize: 9, color: Colors.blue[800])),
+                        decoration: BoxDecoration(color: primeryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
+                        child: Text("Certified", style: TextStyle(fontFamily: FontFamily.gilroyBold, fontSize: 9, color: primeryColor)),
                       ),
-                      const Icon(Icons.arrow_circle_right_rounded, color: Color(0xFFFF9800), size: 20)
+                      const Icon(Icons.arrow_circle_right_rounded, color: Color(0xFF00A89F), size: 20)
                     ],
                   ),
                 ],
@@ -1696,17 +1714,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildEmptyState(String message) {
-    return Container(
-      height: 180,
-      alignment: Alignment.center,
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: AppDesign.bodySmall,
-      ),
-    );
-  }
 
   Widget _buildBodyPartIcon(IconData icon, String label) {
     return Column(
@@ -1726,7 +1733,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ],
           ),
           child: Center(
-            child: Icon(icon, color: const Color(0xFF4A154B), size: 30),
+            child: Icon(icon, color: primeryColor, size: 30),
           ),
         ),
         const SizedBox(height: 8),
@@ -1735,7 +1742,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
             fontSize: 13,
-            color: const Color(0xFF4A154B).withOpacity(0.8),
+            color: primeryColor.withOpacity(0.8),
           ),
         )
       ],

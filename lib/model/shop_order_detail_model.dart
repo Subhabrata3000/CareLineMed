@@ -46,12 +46,12 @@ class OrderDetail {
     String? doctorId;
     List<dynamic>? medicinePrescription;
     String? status;
-    int? totPrice;
+    num? totPrice;
     String? couponId;
-    int? couponAmount;
-    int? wallet;
-    int? siteCommission;
-    int? sitterAmount;
+    num? couponAmount;
+    num? wallet;
+    num? siteCommission;
+    num? sitterAmount;
     String? paymentId;
     String? addressId;
     String? date;
@@ -61,7 +61,7 @@ class OrderDetail {
     String? houseNo;
     String? address;
     String? landmark;
-    int? onlineAmount;
+    num? onlineAmount;
 
     OrderDetail({
         this.id,
@@ -182,9 +182,9 @@ class ProductList {
 
 class PriceDetail {
     String? title;
-    int? price;
-    int? bprice;
-    int? discount;
+    num? price;
+    num? bprice;
+    num? discount;
     int? qty;
 
     PriceDetail({

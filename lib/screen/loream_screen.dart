@@ -1,10 +1,11 @@
 // ignore_for_file: unnecessary_null_comparison, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class Loream extends StatefulWidget {
   Loream({super.key});
@@ -18,10 +19,13 @@ class _LoreamState extends State<Loream> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: WhiteColor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         leading: IconButton(
           onPressed: () {
@@ -29,7 +33,7 @@ class _LoreamState extends State<Loream> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
         title: Text(
@@ -38,7 +42,6 @@ class _LoreamState extends State<Loream> {
             fontSize: 18,
             fontWeight: FontWeight.w900,
             fontFamily: 'Gilroy Medium',
-            color: BlackColor,
           ),
         ),
       ),

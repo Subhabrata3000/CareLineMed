@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:laundry/screen/bottombarpro_screen.dart';
-import 'package:laundry/screen/video_call/vc_provider.dart';
-import 'package:laundry/screen/video_call/videocall_screen.dart';
+import 'package:carelinemed/screen/bottombarpro_screen.dart';
+import 'package:carelinemed/screen/video_call/vc_provider.dart';
+import 'package:carelinemed/screen/video_call/videocall_screen.dart';
 import 'package:provider/provider.dart';
 import '../../Api/config.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;

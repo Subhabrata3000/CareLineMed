@@ -7,13 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:laundry/helpar/routes_helper.dart';
+import 'package:carelinemed/helpar/routes_helper.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../controller_doctor/login_controller.dart';
 import '../../controller_doctor/mobile_check_controller.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/screen/authentication/sign_up_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/screen/authentication/sign_up_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import '../../widget/button.dart';
 import 'forget_password_screen.dart';
 
@@ -82,44 +82,32 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 50),
-        // Premium Icon with Glow
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                color: primeryColor.withOpacity(0.1),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: primeryColor.withOpacity(0.15),
-                    blurRadius: 30,
-                    spreadRadius: 10,
-                  ),
-                ],
+        // Premium Icon / Logo
+        Container(
+          height: 120,
+          width: 180,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: primeryColor.withOpacity(0.15),
+                blurRadius: 30,
+                spreadRadius: 10,
               ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: Image.asset(
+              "assets/logo/img.png",
+              fit: BoxFit.cover,
             ),
-            Container(
-              height: 70,
-              width: 70,
-              decoration: BoxDecoration(
-                color: primeryColor,
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [primeryColor, primeryColor.withOpacity(0.8)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: const Icon(Icons.medical_services_rounded, color: Colors.white, size: 35),
-            ),
-          ],
+          ),
         ),
         const SizedBox(height: 40),
         Text(
-          "Meet Doctor",
+          "CarelineMed",
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
             color: primeryColor,
@@ -209,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text.rich(
             TextSpan(
-              text: "By continuing, you agree to Meet Doctor\n",
+              text: "By continuing, you agree to CarelineMed\n",
               style: TextStyle(color: greyColor, fontSize: 12, height: 1.5),
               children: [
                 TextSpan(text: "Terms of Service", style: TextStyle(color: textcolor, fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),

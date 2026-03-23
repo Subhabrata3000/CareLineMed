@@ -3,19 +3,20 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/cart_shop_controller.dart';
-import 'package:laundry/controller/payment_controller/payfast_payment_controller.dart';
-import 'package:laundry/controller/payment_controller/senang_pay_controller.dart';
-import 'package:laundry/controller/product_detail_controller.dart';
-import 'package:laundry/screen/shop/my%20order/my_order_screen.dart';
-import 'package:laundry/screen/shop/product.dart';
-import 'package:laundry/widget/button.dart';
-import 'package:laundry/widget/coupon_apply_sucsessfull.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/cart_shop_controller.dart';
+import 'package:carelinemed/controller/payment_controller/payfast_payment_controller.dart';
+import 'package:carelinemed/controller/payment_controller/senang_pay_controller.dart';
+import 'package:carelinemed/controller/product_detail_controller.dart';
+import 'package:carelinemed/screen/shop/my%20order/my_order_screen.dart';
+import 'package:carelinemed/screen/shop/product.dart';
+import 'package:carelinemed/widget/button.dart';
+import 'package:carelinemed/widget/coupon_apply_sucsessfull.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -157,8 +158,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               address: checkOutController.addressId.toString(),
               walletAmount:
                   double.parse(checkOutController.useWallet.toStringAsFixed(2)),
-              paymentId: "$paymentSelect",
+              paymentId: paymenttital == "Cash" ? "1" : "$paymentSelect",
               transactionId: transactionID ?? "",
+              productList: checkOutController.checkOutModel?.productList?.map((e) => {
+                "title": e.productName,
+                "id": e.id,
+                "price": e.priceDetail?.isNotEmpty == true ? e.priceDetail![0].price : 0,
+                "qty": e.priceDetail?.isNotEmpty == true ? e.priceDetail![0].cartQty : 1
+              }).toList(),
             )
                 .then(
               (value) {
@@ -211,8 +218,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               address: checkOutController.addressId.toString(),
               walletAmount:
                   double.parse(checkOutController.useWallet.toStringAsFixed(2)),
-              paymentId: "$paymentSelect",
-              transactionId: transactionID ?? "")
+              paymentId: paymenttital == "Cash" ? "1" : "$paymentSelect",
+              transactionId: transactionID ?? "",
+              productList: checkOutController.checkOutModel?.productList?.map((e) => {
+                "title": e.productName,
+                "id": e.id,
+                "price": e.priceDetail?.isNotEmpty == true ? e.priceDetail![0].price : 0,
+                "qty": e.priceDetail?.isNotEmpty == true ? e.priceDetail![0].cartQty : 1
+              }).toList(),
+            )
           .then(
         (value) {
           debugPrint("++++++++++++++++++++++++++++++ $value");
@@ -240,8 +254,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) {
@@ -259,16 +279,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         backgroundColor: bgcolor,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: BlackColor),
-          backgroundColor: WhiteColor,
           elevation: 0,
           centerTitle: true,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
+          ),
           title: Text(
             "Checkout".tr,
             style: TextStyle(
               fontSize: 17,
               fontFamily: FontFamily.gilroyBold,
-              color: BlackColor,
+              color: WhiteColor,
             ),
           ),
         ),
@@ -1107,7 +1129,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10),
                             Container(
                               width: Get.size.width,
                               // margin: EdgeInsets.all(10),
@@ -1152,6 +1173,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           subtitle:
                                               "+${checkOutController.commission}$currency",
                                         ),
+                                  SizedBox(height: 10),
+                                  DottedLine(dashColor: greyColor),
+                                  SizedBox(height: 10),
+                                  billSummaryTextCart(
+                                    title: "Sales Tax (5%)".tr,
+                                    subtitle: "+${checkOutController.salesTax.toStringAsFixed(2)}$currency",
+                                  ),
+                                  SizedBox(height: 10),
+                                  DottedLine(dashColor: greyColor),
+                                  SizedBox(height: 10),
+                                  billSummaryTextCart(
+                                    title: "Shipping Fee".tr,
+                                    subtitle: "Free",
+                                  ),
                                   if (status) ...[
                                     SizedBox(height: 10),
                                     DottedLine(dashColor: greyColor),
@@ -1259,9 +1294,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               .coverimagepath.isNotEmpty &&
                                           checkOutController
                                               .addresTitle.isNotEmpty) {
-                                        checkOutController.total == 0
-                                            ? addOrderApi()
-                                            : paymentSheet();
+                                        checkOutController.total == 0 ? addOrderApi() : paymentSheet();
                                       } else {
                                         Fluttertoast.showToast(
                                             msg:
@@ -1932,7 +1965,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Future paymentSheet() {
+Future paymentSheet() {
     return showModalBottomSheet(
       backgroundColor: WhiteColor,
       isScrollControlled: true,
@@ -1988,15 +2021,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               physics: BouncingScrollPhysics(),
                               separatorBuilder: (context, index) =>
                                   SizedBox(height: 10),
-                              itemBuilder: (context, index) {
-                                return paymentDetailController
-                                            .paymentDetailModel!
-                                            .paymentList[index]
-                                            .name ==
-                                        "Cash"
-                                    ? Container()
-                                    : GestureDetector(
-                                        onTap: () {
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                          onTap: () {
                                           setState(() {
                                             paymenttital =
                                                 paymentDetailController
@@ -2127,7 +2154,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             if (paymentLoading == false && paymentSelect != 0) {
                               paymentLoading = true;
                               setState(() {});
-                              if (paymenttital == "Razorpay") {
+                              if (paymenttital == "Cash") {
+                                addOrderApi();
+                              } else if (paymenttital == "Razorpay") {
                                 checkOutController.setOrderLoading();
                                 // Get.back();
                                 openCheckout();

@@ -1,15 +1,16 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/controller/lab_category_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/lab/lab_list_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/controller/lab_category_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/lab/lab_list_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 
 class LabCategoryScreen extends StatefulWidget {
   const LabCategoryScreen({super.key});
@@ -32,27 +33,29 @@ class _LabCategoryScreenState extends State<LabCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
+
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         centerTitle: false,
         elevation: 0,
-        iconTheme: IconThemeData(color: BlackColor),
         leading: Padding(
           padding: const EdgeInsets.symmetric(vertical: 13),
           child: SvgPicture.asset(
             "assets/bottomIcons/test_tube.svg",
-            color: textcolor,
+            color: WhiteColor,
           ),
         ),
         titleSpacing: 0,
         title: Text(
           "Lab Tests".tr,
           style: TextStyle(
-            color: BlackColor,
+            color: WhiteColor,
             fontFamily: FontFamily.gilroyBold,
-            fontSize: 18,
           ),
         ),
       ),
@@ -73,7 +76,7 @@ class _LabCategoryScreenState extends State<LabCategoryScreen> {
                         clipBehavior: Clip.none,
                         enlargeCenterPage: true,
                         scrollDirection: Axis.horizontal,
-                        autoPlay: true,
+                        autoPlay: labCategoryController.labCategoryApiModel!.bannerList!.length > 1,
                         onPageChanged: (index, reason) {
                           setState(() {
                             selectIndexSlider = index;
@@ -113,7 +116,7 @@ class _LabCategoryScreenState extends State<LabCategoryScreen> {
                       crossAxisCount: 3,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 8,
-                      mainAxisExtent: 120,
+                      mainAxisExtent: 130,
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -124,9 +127,10 @@ class _LabCategoryScreenState extends State<LabCategoryScreen> {
                           ),
                         ),
                         child: Container(
+                          margin: EdgeInsets.only(top: 10),
                           padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: WhiteColor,
+                            color: Colors.transparent, // Changed to transparent
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(color: greycolor.withOpacity(0.3)),
                           ),

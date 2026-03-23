@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../Api/config.dart';
 import '../../Api/data_store.dart';
@@ -118,8 +119,11 @@ class _MessageScreenState extends State<MessageScreen>
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -131,7 +135,7 @@ class _MessageScreenState extends State<MessageScreen>
               },
               child: Icon(
                 Icons.arrow_back,
-                color: BlackColor,
+                color: WhiteColor,
               ),
             ),
             SizedBox(width: 13),
@@ -161,7 +165,7 @@ class _MessageScreenState extends State<MessageScreen>
                   fontFamily: FontFamily.gilroyBold,
                   fontSize: 20,
                   letterSpacing: 0.3,
-                  color: textcolor,
+                  color: WhiteColor,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,

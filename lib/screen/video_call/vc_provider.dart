@@ -1,7 +1,7 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 

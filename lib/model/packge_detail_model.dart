@@ -49,7 +49,7 @@ class PackageData {
     String? packageType;
     List<String>? packageName;
     List<int>? packagePrice;
-    int? totPrice;
+    num? totPrice;
 
     PackageData({
         this.id,

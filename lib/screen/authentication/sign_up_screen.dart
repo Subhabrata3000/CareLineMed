@@ -80,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 10),
                 Center(
                   child: Text(
-                    "Join Meet Doctor and start your health journey!",
+                    "Join CarelineMed and start your health journey!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: FontFamily.gilroyRegular,

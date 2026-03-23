@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/controller/lab_booking_list_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/lab/lab_booking_details_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/controller/lab_booking_list_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/lab/lab_booking_details_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 
 class LabPackageCompleteList extends StatefulWidget {
   const LabPackageCompleteList({super.key});
@@ -62,7 +62,14 @@ class _LabPackageCompleteListState extends State<LabPackageCompleteList> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                   Get.to(LabBookingDetailsScreen(labBookId: "${labBookingListController.labBookingListModel!.labCompleteList![index].id}"));
+                   Get.to(LabBookingDetailsScreen(
+                     labBookId: "${labBookingListController.labBookingListModel!.labCompleteList![index].id}",
+                     labName: "${labBookingListController.labBookingListModel!.labCompleteList![index].name}",
+                     date: "${labBookingListController.labBookingListModel!.labCompleteList![index].date}",
+                     price: "${labBookingListController.labBookingListModel!.labCompleteList![index].totPrice}",
+                     status: "${labBookingListController.labBookingListModel!.labCompleteList![index].statusType}",
+                     logo: "${labBookingListController.labBookingListModel!.labCompleteList![index].labLogo}",
+                   ));
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),

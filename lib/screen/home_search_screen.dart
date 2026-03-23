@@ -1,13 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/doctor_info_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/screen/doctor_info_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import '../controller/search_controller.dart';
 import '../model/font_family_model.dart';
 import 'package:geolocator/geolocator.dart';
@@ -102,13 +103,15 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
         titleSpacing: 0,
         elevation: 0,
-        backgroundColor: bgcolor,
-        iconTheme: IconThemeData(color: BlackColor),
         title: Container(
           width: Get.width,
           margin: EdgeInsets.only(right: 15),

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/state_manager.dart';
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/model/packge_detail_model.dart';
+import 'package:carelinemed/model/packge_detail_model.dart';
 
 class PackageDetailsController extends GetxController implements GetxService {
   String currency = "";

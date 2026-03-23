@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../Api/config.dart';
 import '../../Api/data_store.dart';
@@ -65,16 +66,19 @@ class _ChatScreenState extends State<ChatScreen> {
       backgroundColor: bgcolor,
       appBar: AppBar(
         titleSpacing: 0,
-        backgroundColor: WhiteColor,
         elevation: 0,
         automaticallyImplyLeading: false,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         leading: IconButton(
           onPressed: () {
             Get.back();
           },
           icon: Icon(
             Icons.arrow_back,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
         title: Text(
@@ -83,7 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
             fontFamily: FontFamily.gilroyBold,
             fontSize: 20,
             letterSpacing: 0.3,
-            color: textcolor,
+            color: WhiteColor,
           ),
         ),
       ),

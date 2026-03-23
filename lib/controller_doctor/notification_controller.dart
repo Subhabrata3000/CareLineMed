@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/model/notification_model.dart';
+import 'package:carelinemed/model/notification_model.dart';
 
 class NotificationController extends GetxController implements GetxService {
   bool isLoading = true;

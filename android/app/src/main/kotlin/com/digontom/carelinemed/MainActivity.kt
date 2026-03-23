@@ -1,4 +1,4 @@
-package com.docgo.laundry
+package com.digontom.carelinemed
 
 import io.flutter.embedding.android.FlutterActivity
 

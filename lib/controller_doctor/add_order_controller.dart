@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 
 import '../Api/data_store.dart';
 
@@ -51,7 +51,7 @@ class AddOrderController extends GetxController implements GetxService {
     }) async {
 
      if(isLoad){
-       return;
+       return {"Result": false, "message": "Please wait..."};
      }else{
        isLoad = true;
      }
@@ -77,32 +77,40 @@ class AddOrderController extends GetxController implements GetxService {
        "payment_id": paymentType,
        "wallet_amount": walletAmount,
        "additional_note": message,
+       "address": address,
        "transactionId": transactionId,
      };
      Map<String, String> userHeader = {"Content-type": "application/json", "Accept": "application/json"};
 
-     var response = await http.post(Uri.parse(Config.baseUrlDoctor + Config.bookAppointment),body: jsonEncode(body),headers: userHeader);
+     try {
+       var response = await http.post(Uri.parse(Config.baseUrlDoctor + Config.bookAppointment),body: jsonEncode(body),headers: userHeader);
 
-  debugPrint("============== addOrder Api url =============== ${Config.baseUrlDoctor + Config.bookAppointment}");
-  debugPrint("============== addOrder Api body ============== $body");
-  debugPrint("============ addOrder Api response ============ ${response.body}");
+       debugPrint("============== addOrder Api url =============== ${Config.baseUrlDoctor + Config.bookAppointment}");
+       debugPrint("============== addOrder Api body ============== $body");
+       debugPrint("============ addOrder Api response ============ ${response.body}");
 
-
-     var data = jsonDecode(response.body);
-     if(response.statusCode == 200){
-       if(data["Result"] == true){
-         isLoad = false;
-         // Fluttertoast.showToast(msg: "${data["message"]}");
-         update();
-         return jsonDecode(response.body);
+       var data = jsonDecode(response.body);
+       if(response.statusCode == 200){
+         if(data["Result"] == true){
+           isLoad = false;
+           // Fluttertoast.showToast(msg: "${data["message"]}");
+           update();
+           return jsonDecode(response.body);
+         }
+         else{
+           isLoad = false;
+           Fluttertoast.showToast(msg: "${data["message"]}");
+           return jsonDecode(response.body);
+         }
        }
        else{
-         Fluttertoast.showToast(msg: "${data["message"]}");
-         return jsonDecode(response.body);
+         isLoad = false;
+         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please update the content from the backend panel. It appears that the correct data was not uploaded, or there may be issues with the data that was added.")));
+         return {"Result": false, "message": "Server error ${response.statusCode}"};
        }
-     }
-     else{
-       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please update the content from the backend panel. It appears that the correct data was not uploaded, or there may be issues with the data that was added.")));
+     } catch(e) {
+       isLoad = false;
+       return {"Result": false, "message": e.toString()};
      }
    }
 }

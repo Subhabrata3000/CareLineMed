@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import '../controller_doctor/doctor_detail_controller.dart';
 
 class AboutScreen extends StatefulWidget {

@@ -1,9 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/screen/shop/shop_detail_screen.dart';
+import 'package:carelinemed/screen/shop/shop_detail_screen.dart';
 import '../../Api/config.dart';
 import '../../controller_doctor/category_controller.dart';
 import '../../model/font_family_model.dart';
@@ -27,25 +28,27 @@ class _ShopsScreenState extends State<ShopsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
+
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         titleSpacing: 0,
-        centerTitle: false,
         automaticallyImplyLeading: false,
         leading: Padding(
           padding: const EdgeInsets.symmetric(vertical: 13),
           child: SvgPicture.asset(
             "assets/bottomIcons/medicine.svg",
-            color: textcolor,
+            color: WhiteColor,
           ),
         ),
         title: Text(
           "Shops".tr,
           style: TextStyle(
-            color: BlackColor,
             fontFamily: FontFamily.gilroyBold,
             fontSize: 18,
           ),
@@ -54,7 +57,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
       body: GetBuilder<CategoryController>(
         builder: (categoryController) {
           return Container(
-                color: WhiteColor,
+                color: Colors.transparent,
                 margin: EdgeInsets.only(top: 10),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(

@@ -7,6 +7,44 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:720619866387:android:f8e6b3d7cb5ad4e8bf32e6",
+        "android_client_info": {
+          "package_name": "com.digontom.carelinemed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8lYX4PpdH4pGyeJgS9EBnW1Z68-ZaR68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720619866387:android:ec8bca6307decb77bf32e6",
+        "android_client_info": {
+          "package_name": "com.digontom.laundry"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8lYX4PpdH4pGyeJgS9EBnW1Z68-ZaR68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:720619866387:android:510a39f9d33d3cb0bf32e6",
         "android_client_info": {
           "package_name": "com.digontom.meetmedical"

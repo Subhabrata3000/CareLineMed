@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller_doctor/shop_order_cancel_controller.dart';
-import 'package:laundry/screen/shop/my%20order/store_wise_screen.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller_doctor/shop_order_cancel_controller.dart';
+import 'package:carelinemed/screen/shop/my%20order/store_wise_screen.dart';
 import '../../../Api/config.dart';
 import '../../../controller/shop_order_detail_controller.dart';
 import '../../../controller/myorder_list_controller.dart';
@@ -51,15 +52,17 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
-        centerTitle: true,
         elevation: 0,
         automaticallyImplyLeading: false,
         leading: BackButton(
-          color: BlackColor,
+          color: WhiteColor,
           onPressed: () {
             Get.back();
           },
@@ -69,7 +72,6 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
             fontSize: 18,
-            color: BlackColor,
           ),
         ),
       ),

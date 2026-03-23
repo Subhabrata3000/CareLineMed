@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 import '../../Api/config.dart';
 import '../../controller/add_address_controller.dart';
@@ -41,20 +42,23 @@ class _DeliveryAddress1State extends State<DeliveryAddress1> {
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         leading: BackButton(
           onPressed: () {
             Get.back();
           },
-          color: BlackColor,
+          color: WhiteColor,
         ),
         title: Text(
           "Add Your delivery address".tr,
           maxLines: 1,
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
+            color: WhiteColor,
             fontSize: 17,
             overflow: TextOverflow.ellipsis,
           ),
@@ -68,7 +72,7 @@ class _DeliveryAddress1State extends State<DeliveryAddress1> {
               TextSpan(
                 text: '1',
                 style: TextStyle(
-                  color: BlackColor,
+                  color: WhiteColor,
                   fontFamily: FontFamily.gilroyBold,
                   fontSize: 17,
                 ),

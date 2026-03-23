@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/model/cart_shop_model.dart';
+import 'package:carelinemed/model/cart_shop_model.dart';
 import '../Api/config.dart';
 
 class CartShopController extends GetxController implements GetxService {

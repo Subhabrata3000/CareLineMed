@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/model/lab_booking_list_model.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/model/lab_booking_list_model.dart';
 import 'package:http/http.dart' as http;
 
 class LabBookingListController extends GetxController implements GetxService {

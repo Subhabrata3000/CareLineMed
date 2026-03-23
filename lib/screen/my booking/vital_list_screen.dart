@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../controller_doctor/book_vital_physical_controller.dart';
 
@@ -34,6 +35,10 @@ class _VitalScreenState extends State<VitalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -42,7 +47,7 @@ class _VitalScreenState extends State<VitalScreen> {
           },
           child: Icon(
             Icons.arrow_back,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
         centerTitle: true,
@@ -52,12 +57,10 @@ class _VitalScreenState extends State<VitalScreen> {
           style: TextStyle(
             fontSize: 16,
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
             overflow: TextOverflow.ellipsis,
           ),
         ),
         elevation: 0,
-        backgroundColor: WhiteColor,
       ),
       body: GetBuilder<BookVitalPhysicalController>(
           builder: (bookVitalPhysicalController) {

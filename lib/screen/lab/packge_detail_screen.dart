@@ -1,13 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/package_details_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/package_details_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class PackgeDetailScreen extends StatefulWidget {
   final String packageId;
@@ -33,20 +34,26 @@ class _PackgeDetailScreenState extends State<PackgeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
-      backgroundColor: WhiteColor,
+      backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         titleSpacing: 0,
-        iconTheme: IconThemeData(color: BlackColor),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text(
           "Package Details".tr,
           maxLines: 1,
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
             overflow: TextOverflow.ellipsis,
+            color: WhiteColor,
           ),
         ),
       ),

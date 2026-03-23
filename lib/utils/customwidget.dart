@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar({required context,required String text}){
   return  ScaffoldMessenger.of(context).showSnackBar(

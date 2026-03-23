@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/packages_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/lab/packge_detail_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/packages_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/screen/lab/packge_detail_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class PopularTestsTab extends StatefulWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../controller_doctor/appointment_diagnosis_controller.dart';
@@ -28,6 +29,10 @@ class _DiagnosisScreenState extends State<DiagnosisScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -36,7 +41,7 @@ class _DiagnosisScreenState extends State<DiagnosisScreen> {
           },
           child: Icon(
             Icons.arrow_back,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
         centerTitle: true,
@@ -46,12 +51,10 @@ class _DiagnosisScreenState extends State<DiagnosisScreen> {
           style: TextStyle(
             fontSize: 16,
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
             overflow: TextOverflow.ellipsis,
           ),
         ),
         elevation: 0,
-        backgroundColor: WhiteColor,
       ),
       body: GetBuilder<BookDiagnosisController>(
           builder: (bookVitalPhysicalController) {

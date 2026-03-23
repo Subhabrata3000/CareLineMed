@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/cart_shop_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/shop/product.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/button.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/cart_shop_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/shop/product.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/button.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 Future cartAddItemsBottomSheet(

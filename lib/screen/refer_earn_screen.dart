@@ -3,13 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/refer_earn_controller.dart';
-import 'package:laundry/utils/customwidget.dart';
-import 'package:laundry/widget/button.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/refer_earn_controller.dart';
+import 'package:carelinemed/utils/customwidget.dart';
+import 'package:carelinemed/widget/button.dart';
 import 'package:lottie/lottie.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import 'package:share_plus/share_plus.dart';
 import '../model/font_family_model.dart';
 
@@ -51,21 +51,25 @@ class _ReferFriendScreenState extends State<ReferFriendScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
-      backgroundColor: WhiteColor,
+      backgroundColor: bgcolor,
       bottomNavigationBar: Container(
         color: Colors.transparent,
         padding: EdgeInsets.all(12),
         child: button(
           text: "Refer a Friend".tr,
-          color: gradient.defoultColor,
+          color: primeryColor,
+          borderRadius: BorderRadius.circular(15),
           onPress: () async {
             await share();
           },
         ),
       ),
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         titleSpacing: 0,
         title: Text(
@@ -73,7 +77,6 @@ class _ReferFriendScreenState extends State<ReferFriendScreen> {
           style: TextStyle(
             fontSize: 17,
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
           ),
         ),
       ),

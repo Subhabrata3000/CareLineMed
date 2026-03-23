@@ -2,16 +2,17 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/add_medicine_controller.dart';
-import 'package:laundry/controller/medicine_reminder_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/button.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/add_medicine_controller.dart';
+import 'package:carelinemed/controller/medicine_reminder_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/button.dart';
 
 class AddMedicineScreen extends StatefulWidget {
   const AddMedicineScreen({
@@ -84,9 +85,13 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[200],
+      backgroundColor: bgcolor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: addMedicineController.medicinceTextValue.text == ""
           ? SizedBox(height: 0, width: 0)
@@ -157,34 +162,20 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
         toolbarHeight: 70,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              shape: BoxShape.circle,
-            ),
-            child: BackButton(
-              color: BlackColor,
-              onPressed: () {
-                Get.back();
-              },
-            ),
-          ),
+        leading: BackButton(
+          color: WhiteColor,
+          onPressed: () {
+            Get.back();
+          },
         ),
         title: Text(
           "${widget.reminderId == null ? "Add".tr : "Edit".tr} ${"Medicine".tr}",
           style: TextStyle(
-            color: BlackColor,
             fontFamily: FontFamily.gilroyBold,
           ),
         ),
-        centerTitle: true,
       ),
       body: GetBuilder<AddMedicineController>(
         builder: (addMedicineController) {

@@ -12,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 import 'dart:ui' as ui;
 import '../../controller/add_address_controller.dart';
 import '../../model/font_family_model.dart';
@@ -91,22 +91,25 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
       return Scaffold(
         backgroundColor: bgcolor,
         appBar: AppBar(
-          backgroundColor: WhiteColor,
           elevation: 0,
           centerTitle: true,
           automaticallyImplyLeading: false,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
+          ),
           leading: widget.isBack == false ? const SizedBox() : BackButton(
             onPressed: () {
               Get.back();
             },
-            color: BlackColor,
+            color: WhiteColor,
           ),
           title: Text(
             "Select Location".tr,
             maxLines: 1,
             style: TextStyle(
               fontFamily: FontFamily.gilroyBold,
-              color: BlackColor,
+              color: WhiteColor,
               fontSize: 17,
               overflow: TextOverflow.ellipsis,
             ),

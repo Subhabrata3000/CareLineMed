@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/screen/shop/product_details.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/screen/shop/product_details.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import '../../Api/data_store.dart';
 import '../../controller_doctor/product_search_controller.dart';
 import '../../model/font_family_model.dart';

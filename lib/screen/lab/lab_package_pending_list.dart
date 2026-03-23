@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/controller/lab_booking_list_controller.dart';
-import 'package:laundry/controller_doctor/appint_cancel_reson_list_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/lab/lab_booking_details_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/controller/lab_booking_list_controller.dart';
+import 'package:carelinemed/controller_doctor/appint_cancel_reson_list_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/lab/lab_booking_details_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 
 class LabPackagePendingList extends StatefulWidget {
   const LabPackagePendingList({super.key});
@@ -72,7 +72,14 @@ class _LabPackagePendingListState extends State<LabPackagePendingList> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  Get.to(LabBookingDetailsScreen(labBookId: "${labBookingListController.labBookingListModel!.labPendingList![index].id}"));
+                  Get.to(LabBookingDetailsScreen(
+                    labBookId: "${labBookingListController.labBookingListModel!.labPendingList![index].id}",
+                    labName: "${labBookingListController.labBookingListModel!.labPendingList![index].name}",
+                    date: "${labBookingListController.labBookingListModel!.labPendingList![index].date}",
+                    price: "${labBookingListController.labBookingListModel!.labPendingList![index].totPrice}",
+                    status: "${labBookingListController.labBookingListModel!.labPendingList![index].statusType}",
+                    logo: "${labBookingListController.labBookingListModel!.labPendingList![index].labLogo}",
+                  ));
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),

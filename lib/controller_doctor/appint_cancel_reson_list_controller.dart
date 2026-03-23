@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/model_doctor/appint_cancel_reson_list_model.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/model_doctor/appint_cancel_reson_list_model.dart';
 import 'package:http/http.dart' as http;
 
 class AppintCancelResonListController extends GetxController implements GetxService {

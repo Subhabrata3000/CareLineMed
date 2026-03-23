@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:laundry/controller/packages_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/lab/affordable_packages_tab.dart';
-import 'package:laundry/screen/lab/lab_package_cart_screen.dart';
-import 'package:laundry/screen/lab/popular_tests_tab.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/button.dart';
+import 'package:carelinemed/controller/packages_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/lab/affordable_packages_tab.dart';
+import 'package:carelinemed/screen/lab/lab_package_cart_screen.dart';
+import 'package:carelinemed/screen/lab/popular_tests_tab.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/button.dart';
 
 class PackagesScreen extends StatefulWidget {
   final String title;
@@ -41,20 +42,26 @@ class _PackagesScreenState extends State<PackagesScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         titleSpacing: 0,
-        iconTheme: IconThemeData(color: BlackColor),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text(
           widget.title,
           maxLines: 1,
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
             overflow: TextOverflow.ellipsis,
+            color: WhiteColor,
           ),
         ),
       ),

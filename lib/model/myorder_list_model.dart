@@ -44,7 +44,7 @@ class Complete {
     int? id;
     String? doctorId;
     String? status;
-    int? totPrice;
+    num? totPrice;
     String? date;
     int? totProduct;
     String? image;

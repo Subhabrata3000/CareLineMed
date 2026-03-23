@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/controller/favorite_add_controller.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/controller/favorite_add_controller.dart';
 
 import '../Api/data_store.dart';
 import '../model_doctor/cart_detail_model.dart';

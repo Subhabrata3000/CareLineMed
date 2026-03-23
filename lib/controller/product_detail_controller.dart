@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/screen/shop/product.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/screen/shop/product.dart';
 import '../Api/config.dart';
 import '../model/product_detail_model.dart';
 

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/state_manager.dart';
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/data_store.dart';
+import 'package:carelinemed/Api/data_store.dart';
 
 class DeleteAccountController extends GetxController implements GetxService {
   bool isLoading = true;

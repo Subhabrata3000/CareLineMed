@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/controller_doctor/notification_controller.dart';
+import 'package:carelinemed/controller_doctor/notification_controller.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -28,16 +29,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
-        iconTheme: IconThemeData(color: textcolor),
         elevation: 0,
-        centerTitle: true,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text(
           "Notification".tr,
           style: TextStyle(
             fontSize: 17,
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
       ),

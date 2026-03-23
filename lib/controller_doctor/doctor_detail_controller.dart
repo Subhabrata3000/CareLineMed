@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/controller_doctor/time_slot_controller.dart';
+import 'package:carelinemed/controller_doctor/time_slot_controller.dart';
 import '../Api/config.dart';
 import '../Api/data_store.dart';
 import '../model_doctor/doctor_detail_model.dart';
@@ -63,6 +63,11 @@ class DoctorDetailController extends GetxController implements GetxService {
     if(response.statusCode == 200) {
       if(data['Result'] == true){
         doctorDetailModel = doctorDetailModelFromJson(response.body);
+        
+        if (doctorDetailModel != null && doctorDetailModel!.doctor != null) {
+            doctorDetailModel!.doctor!.cancelPolicy = "";
+        }
+
         update();
         if(doctorDetailModel!.result == true){
           showType = doctorDetailModel!.depSubSerList![0].showType!;

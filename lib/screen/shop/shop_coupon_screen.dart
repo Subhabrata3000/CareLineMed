@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller_doctor/cart_detail_controller.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller_doctor/cart_detail_controller.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/checkout_controller.dart';

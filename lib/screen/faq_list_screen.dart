@@ -1,10 +1,11 @@
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:laundry/controller_doctor/faq_list_controller.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/controller_doctor/faq_list_controller.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class FaqListScreen extends StatefulWidget {
   const FaqListScreen({super.key});
@@ -25,19 +26,20 @@ class _FaqListScreenState extends State<FaqListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
-      backgroundColor: WhiteColor,
+      backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
         titleSpacing: 0,
-        centerTitle: true,
         title: Text(
           "Faq".tr,
           style: TextStyle(
             fontSize: 17,
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
           ),
         ),
       ),

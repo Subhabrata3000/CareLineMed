@@ -8,7 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/config.dart';
+import 'package:carelinemed/Api/config.dart';
 import '../model_doctor/map_sitter_model.dart';
 
 class MapSitterController extends GetxController implements GetxService {

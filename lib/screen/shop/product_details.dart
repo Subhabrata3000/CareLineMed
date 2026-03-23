@@ -1,15 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/checkout_controller.dart';
-import 'package:laundry/controller_doctor/product_list_controller.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/shop/cart_add_bottomsheet.dart';
-import 'package:laundry/screen/shop/checkout_screen.dart';
-import 'package:laundry/screen/shop/product.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/checkout_controller.dart';
+import 'package:carelinemed/controller_doctor/product_list_controller.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/screen/shop/cart_add_bottomsheet.dart';
+import 'package:carelinemed/screen/shop/checkout_screen.dart';
+import 'package:carelinemed/screen/shop/product.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import '../../controller/cart_shop_controller.dart';
@@ -83,6 +84,10 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) {
@@ -109,11 +114,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           return true;
         },
         child: Scaffold(
-          backgroundColor: WhiteColor,
+          backgroundColor: bgcolor,
           appBar: AppBar(
-            backgroundColor: WhiteColor,
             elevation: 0,
-            centerTitle: true,
             automaticallyImplyLeading: false,
             leading: Container(
               height: 30,
@@ -124,7 +127,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 shape: BoxShape.circle,
               ),
               child: BackButton(
-                color: BlackColor,
+                color: WhiteColor,
                 onPressed: () {
                   if (widget.productIndex != null) {
                     Get.back();
@@ -506,7 +509,6 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
       extendBodyBehindAppBar: true,
       backgroundColor: WhiteColor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
       ),
       body: PhotoViewGallery.builder(

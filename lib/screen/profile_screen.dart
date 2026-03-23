@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,16 +8,16 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:laundry/controller/delete_account_controller.dart';
-import 'package:laundry/controller_doctor/home_controller.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/faq_list_screen.dart';
-import 'package:laundry/screen/lab/lab_booking_list_screen.dart';
-import 'package:laundry/screen/medicine_reminder/medicine_reminder_screen.dart';
-import 'package:laundry/screen/shop/my%20order/my_order_screen.dart';
-import 'package:laundry/screen/shop/product.dart';
-import 'package:laundry/widget/button.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/controller/delete_account_controller.dart';
+import 'package:carelinemed/controller_doctor/home_controller.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/screen/faq_list_screen.dart';
+import 'package:carelinemed/screen/lab/lab_booking_list_screen.dart';
+import 'package:carelinemed/screen/medicine_reminder/medicine_reminder_screen.dart';
+import 'package:carelinemed/screen/shop/my%20order/my_order_screen.dart';
+import 'package:carelinemed/screen/shop/product.dart';
+import 'package:carelinemed/widget/button.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Api/config.dart';
 import '../Api/data_store.dart';
@@ -213,18 +214,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
+
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: WhiteColor,
         automaticallyImplyLeading: false,
         title: Text(
           "Profile Account".tr,
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
             fontSize: 18,
-            color: BlackColor,
           ),
         ),
       ),
@@ -367,7 +371,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         padding: EdgeInsets.only(left: 12,top: 8,right: 12,bottom: 15),
                         margin: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(color: WhiteColor,borderRadius: BorderRadius.circular(20)),
+                        decoration: BoxDecoration(color: WhiteColor.withOpacity(0.9),borderRadius: BorderRadius.circular(20)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -425,7 +429,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         padding: const EdgeInsets.only(left: 12,top: 8,right: 12,bottom: 15),
                         margin: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(color: WhiteColor, borderRadius: BorderRadius.circular(20)),
+                        decoration: BoxDecoration(color: WhiteColor.withOpacity(0.9), borderRadius: BorderRadius.circular(20)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

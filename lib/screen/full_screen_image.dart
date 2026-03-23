@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/utils/customwidget.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/utils/customwidget.dart';
 
 class FullScreenImage extends StatelessWidget {
   String? imageUrl;

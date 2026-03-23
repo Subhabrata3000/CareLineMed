@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundry/helpar/routes_helper.dart';
+import 'package:carelinemed/helpar/routes_helper.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 import '../../controller/add_address_controller.dart';
 
@@ -66,20 +66,23 @@ class _DelieryAddress2State extends State<DelieryAddress2> {
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         leading: BackButton(
           onPressed: () {
             Get.back();
           },
-          color: BlackColor,
+          color: WhiteColor,
         ),
         title: Text(
           "Add Your delivery address".tr,
           maxLines: 1,
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
+            color: WhiteColor,
             fontSize: 17,
             overflow: TextOverflow.ellipsis,
           ),
@@ -93,7 +96,7 @@ class _DelieryAddress2State extends State<DelieryAddress2> {
               TextSpan(
                 text: '2',
                 style: TextStyle(
-                  color: BlackColor,
+                  color: WhiteColor,
                   fontFamily: FontFamily.gilroyBold,
                   fontSize: 17,
                 ),

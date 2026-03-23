@@ -49,61 +49,62 @@
 // Color productbgColor = const Color(0xffF1F4fd);
 import 'package:flutter/material.dart';
 
-Color primeryColor = const Color(0xFF0F52BA);     // Primary
+Color primeryColor = const Color(0xFF00A89F);     // Primary: Peacock Teal
+Color accentColor = const Color(0xFF00BFA5);      // Accent: Tropical Jade
 Color WhiteColor = const Color(0xFFFFFFFF);
 Color BlackColor = const Color(0xFF000000);
 
-Color bgcolor = const Color(0xFFEAF2FF);
-Color bg1Color = const Color(0xFFF0F5FF);
+Color bgcolor = const Color(0xFFF0F7F7);         // Light version of teal for bg
+Color bg1Color = const Color(0xFFF5F9F9);
 
-Color Darkblue = const Color(0xFF0F52BA);
-Color yelloColor = const Color(0xFFFFB703);
+Color Darkblue = const Color(0xFF007A73);         // Primary Dark: Dark Teal
+Color yelloColor = const Color(0xFF00BFA5);       // Accent: Tropical Jade (Replacing yellow)
 Color RedColor = const Color(0xFFFF4D4F);
 
 Color lightgrey = const Color(0xFFE1E8F0);
-Color darkmode = const Color(0xFF0E1B2C);
-Color boxcolor = const Color(0xFF16263A);
+Color darkmode = const Color(0xFF0D2137);         // Secondary: Deep Navy (for dark mode)
+Color boxcolor = const Color(0xFF0D2137);         // Secondary: Deep Navy
 
 Color greycolor = const Color(0xFF6B7280);
 Color Greycolor = const Color(0xFFA7AEC1);
 
-Color perpulshadow = const Color(0x1A0866FF);
+Color perpulshadow = const Color(0x1A00A89F);
 
-Color blueColor = const Color(0xFF2884D0);
+Color blueColor = const Color(0xFF00BFA5);        // Accent: Tropical Jade
 
-Color green1Color = const Color(0xFF20BC3B);
-Color greenColor = const Color(0xFF20BC3B);
+Color green1Color = const Color(0xFF00A89F);
+Color greenColor = const Color(0xFF00A89F);
 
-Color gradientColor = const Color(0xFF2884D0);
+Color gradientColor = const Color(0xFF00A89F);
 
-Color brownColor = const Color(0xFF124281);
-Color orangeColor = const Color(0xFFFFB703);
-Color lightyello = const Color(0xFFFFD166);
+Color brownColor = const Color(0xFF0D2137);
+Color orangeColor = const Color(0xFF00BFA5);
+Color lightyello = const Color(0xFF00BFA5);
 
 Color redgradient = const Color(0xFFFF6B6B);
 
-Color textcolor = const Color(0xFF124281);
-Color yellowshadow = const Color(0x1AFFB703);
+Color textcolor = const Color(0xFF0D2137);         // Secondary: Deep Navy
+Color yellowshadow = const Color(0x1A00BFA5);
 
-Color boxbgcolor = const Color(0xFFEAF1FF);
-Color bordercolor = const Color(0xFFE1E8F0);
+Color boxbgcolor = const Color(0xFFF0F7F7);
+Color bordercolor = const Color(0xFFE1F0F0);
 
-Color buttoncolor = const Color(0xFF0F52BA);
+Color buttoncolor = const Color(0xFF00A89F);       // Primary: Peacock Teal
 
 Color NeutralGrey = const Color(0xFF6B7280);
 Color transparent = Colors.transparent;
 
-Color progressColor = const Color(0xFF2884D0);
+Color progressColor = const Color(0xFF00BFA5);     // Accent: Tropical Jade
 
 Color greytext = const Color(0xFF97A2B0);
 
-Color BlackColor2 = const Color(0xFF1A2B44);
+Color BlackColor2 = const Color(0xFF0D2137);       // Secondary: Deep Navy
 
 Color greyColor = const Color(0xFFA7AEC1);
 Color greyColor2 = const Color(0xFFA7AEC1);
 
-Color Darkblue2 = const Color(0xFF0F52BA);
-Color yelloColor2 = const Color(0xFFFFB703);
+Color Darkblue2 = const Color(0xFF007A73);        // Primary Dark: Dark Teal
+Color yelloColor2 = const Color(0xFF00BFA5);      // Accent: Tropical Jade
 Color RedColor2 = const Color(0xFFFF4D4F);
 
 Color lightgrey2 = const Color(0xFFE1E8F0);

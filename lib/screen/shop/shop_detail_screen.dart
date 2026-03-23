@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/screen/shop/product.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/screen/shop/product.dart';
 import '../../controller_doctor/store_list_controller.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 
 class ShopDetails extends StatefulWidget {
   final String name;
@@ -44,18 +45,18 @@ class _ShopDetailsState extends State<ShopDetails> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
-        iconTheme: IconThemeData(color: BlackColor),
-        centerTitle: true,
         title: Text(
           widget.name,
           textAlign: TextAlign.start,
           style: const TextStyle(
-            color: Colors.black,
             letterSpacing: 0.4,
             fontFamily: FontFamily.gilroyBold,
             fontSize: 20,
@@ -107,7 +108,6 @@ class _ShopDetailsState extends State<ShopDetails> {
                                     );
                                   },
                                   child: Container(
-                                    width: Get.size.width,
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       color: WhiteColor,
@@ -145,8 +145,8 @@ class _ShopDetailsState extends State<ShopDetails> {
                                                   color: BlackColor,
                                                   fontFamily: FontFamily.gilroyBold,
                                                   fontSize: 17,
-                                                  overflow: TextOverflow.ellipsis,
                                                 ),
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                               SizedBox(height: 5),
                                               Text(
@@ -216,7 +216,6 @@ class _ShopDetailsState extends State<ShopDetails> {
                           separatorBuilder: (context, index) => SizedBox(height: 10),
                           itemBuilder: (context, index) {
                             return Container(
-                              width: Get.size.width,
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: WhiteColor,
@@ -244,31 +243,28 @@ class _ShopDetailsState extends State<ShopDetails> {
                                       children: [
                                         ClipRRect(
                                           borderRadius: BorderRadius.circular(15),
-                                          child: Image.asset(
-                                            "assets/ezgif.com-crop.gif",
+                                          child: Container(
                                             height: 20,
                                             width: Get.width / 2,
-                                            fit: BoxFit.cover,
+                                            color: Colors.grey[200],
                                           ),
                                         ),
                                         SizedBox(height: 5),
                                         ClipRRect(
                                           borderRadius: BorderRadius.circular(10),
-                                          child: Image.asset(
-                                            "assets/ezgif.com-crop.gif",
+                                          child: Container(
                                             height: 30,
                                             width: double.infinity,
-                                            fit: BoxFit.cover,
+                                            color: Colors.grey[200],
                                           ),
                                         ),
                                         SizedBox(height: 5),
                                         ClipRRect(
                                           borderRadius: BorderRadius.circular(15),
-                                          child: Image.asset(
-                                            "assets/ezgif.com-crop.gif",
+                                          child: Container(
                                             height: 15,
                                             width: Get.width / 3,
-                                            fit: BoxFit.cover,
+                                            color: Colors.grey[200],
                                           ),
                                         ),
                                       ],

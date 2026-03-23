@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../controller_doctor/book_medicine_controller.dart';
@@ -30,6 +31,10 @@ class _MedicineListScreenState extends State<MedicineListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -38,7 +43,7 @@ class _MedicineListScreenState extends State<MedicineListScreen> {
           },
           child: Icon(
             Icons.arrow_back,
-            color: BlackColor,
+            color: WhiteColor,
           ),
         ),
         centerTitle: true,
@@ -48,12 +53,10 @@ class _MedicineListScreenState extends State<MedicineListScreen> {
           style: TextStyle(
             fontSize: 16,
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
             overflow: TextOverflow.ellipsis,
           ),
         ),
         elevation: 0,
-        backgroundColor: WhiteColor,
       ),
       body: GetBuilder<BookMedicineController>(
           builder: (bookMedicineController) {

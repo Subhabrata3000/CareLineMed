@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../model/font_family_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -40,13 +41,16 @@ class _StripePaymentWebState extends State<StripePaymentWeb> {
         ),
       );
     } else {
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ));
       return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back,color: Colors.red),
+                icon: const Icon(Icons.arrow_back,color: Colors.white),
                 onPressed: () => Get.to(YourCartScreen(doctorId: "",subDepartmentId: "",hospitalId: "",serviceType: "",time: "",date: "",price: 0,departmentId: "",day: "",))),
-            backgroundColor: Colors.black12,
             elevation: 0.0),
         body: Center(
           child: CircularProgressIndicator(

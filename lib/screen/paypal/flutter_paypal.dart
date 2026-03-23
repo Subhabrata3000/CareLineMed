@@ -3,7 +3,7 @@ library;
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:laundry/screen/paypal/src/screens/complete_payment.dart';
+import 'package:carelinemed/screen/paypal/src/screens/complete_payment.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -241,10 +241,9 @@ class UsePaypalState extends State<UsePaypal> {
       },
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: const Color(0xFF272727),
             leading: GestureDetector(
-              child: const Icon(Icons.arrow_back_ios),
               onTap: () => Navigator.pop(context),
+              child: const Icon(Icons.arrow_back_ios, color: Colors.white),
             ),
             title: Row(
               children: [

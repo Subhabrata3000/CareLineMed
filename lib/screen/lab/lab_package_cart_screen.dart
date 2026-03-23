@@ -5,38 +5,39 @@ import 'dart:io';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller/address_list_controller.dart';
-import 'package:laundry/controller/lab_package_cart_controller.dart';
-import 'package:laundry/controller/packages_controller.dart';
-import 'package:laundry/controller/payment_controller/flutterwave_controller.dart';
-import 'package:laundry/controller/payment_controller/midtrans_controller.dart';
-import 'package:laundry/controller/payment_controller/payfast_payment_controller.dart';
-import 'package:laundry/controller/payment_controller/paypal_controller.dart';
-import 'package:laundry/controller/payment_controller/paystack_controller.dart';
-import 'package:laundry/controller/payment_controller/senang_pay_controller.dart';
-import 'package:laundry/controller/payment_controller/strip_controller.dart';
-import 'package:laundry/controller/payment_detail_controller.dart';
-import 'package:laundry/controller_doctor/cart_detail_controller.dart';
-import 'package:laundry/controller_doctor/home_controller.dart';
-import 'package:laundry/helpar/routes_helper.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/PaymentGateway/PaymentCard.dart';
-import 'package:laundry/screen/PaymentGateway/common_webview.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/bottombarpro_screen.dart';
-import 'package:laundry/screen/lab/lab_booking_list_screen.dart';
-import 'package:laundry/screen/paypal/flutter_paypal.dart';
-import 'package:laundry/screen/video_call/vc_provider.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/add_pet_bottom.dart';
-import 'package:laundry/widget/button.dart';
-import 'package:laundry/widget/coupon_apply_sucsessfull.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/address_list_controller.dart';
+import 'package:carelinemed/controller/lab_package_cart_controller.dart';
+import 'package:carelinemed/controller/packages_controller.dart';
+import 'package:carelinemed/controller/payment_controller/flutterwave_controller.dart';
+import 'package:carelinemed/controller/payment_controller/midtrans_controller.dart';
+import 'package:carelinemed/controller/payment_controller/payfast_payment_controller.dart';
+import 'package:carelinemed/controller/payment_controller/paypal_controller.dart';
+import 'package:carelinemed/controller/payment_controller/paystack_controller.dart';
+import 'package:carelinemed/controller/payment_controller/senang_pay_controller.dart';
+import 'package:carelinemed/controller/payment_controller/strip_controller.dart';
+import 'package:carelinemed/controller/payment_detail_controller.dart';
+import 'package:carelinemed/controller_doctor/cart_detail_controller.dart';
+import 'package:carelinemed/controller_doctor/home_controller.dart';
+import 'package:carelinemed/helpar/routes_helper.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/PaymentGateway/PaymentCard.dart';
+import 'package:carelinemed/screen/PaymentGateway/common_webview.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/screen/bottombarpro_screen.dart';
+import 'package:carelinemed/screen/lab/lab_booking_list_screen.dart';
+import 'package:carelinemed/screen/paypal/flutter_paypal.dart';
+import 'package:carelinemed/screen/video_call/vc_provider.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/add_pet_bottom.dart';
+import 'package:carelinemed/widget/button.dart';
+import 'package:carelinemed/widget/coupon_apply_sucsessfull.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -267,17 +268,18 @@ class _LabPackageCartScreenState extends State<LabPackageCartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: WhiteColor,
         titleSpacing: 0,
-        iconTheme: IconThemeData(color: BlackColor),
         title: Text(
           "Book Lab Tests".tr,
           style: TextStyle(
-            color: BlackColor,
             fontFamily: FontFamily.gilroyBold,
           ),
         ),

@@ -6,10 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/controller_doctor/home_controller.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller_doctor/home_controller.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
 import '../../controller/add_address_controller.dart';
 import '../../model/font_family_model.dart';
 
@@ -77,20 +77,23 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen> {
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
         leading: BackButton(
           onPressed: () {
             Get.back();
           },
-          color: BlackColor,
+          color: WhiteColor,
         ),
         title: Text(
           "Enter address details".tr,
           maxLines: 1,
           style: TextStyle(
             fontFamily: FontFamily.gilroyBold,
-            color: BlackColor,
+            color: WhiteColor,
             fontSize: 17,
             overflow: TextOverflow.ellipsis,
           ),
@@ -104,7 +107,7 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen> {
               TextSpan(
                 text: '3',
                 style: TextStyle(
-                  color: BlackColor,
+                  color: WhiteColor,
                   fontFamily: FontFamily.gilroyBold,
                   fontSize: 17,
                 ),

@@ -2,12 +2,13 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:laundry/controller/payment_controller/payfast_payment_controller.dart';
-import 'package:laundry/controller/payment_controller/senang_pay_controller.dart';
+import 'package:carelinemed/controller/payment_controller/payfast_payment_controller.dart';
+import 'package:carelinemed/controller/payment_controller/senang_pay_controller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -21,8 +22,8 @@ import '../../controller/payment_controller/paystack_controller.dart';
 import '../../controller/payment_controller/strip_controller.dart';
 import '../../controller/payment_detail_controller.dart';
 import '../../model/font_family_model.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/button.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/button.dart';
 import '../../controller_doctor/add_wallet_controller.dart';
 import '../../controller_doctor/wallet_detail_controller.dart';
 import '../../utils/customwidget.dart';
@@ -99,10 +100,13 @@ class _WalletHistoryScreenState extends State<WalletHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       appBar: AppBar(
-        backgroundColor: gradient.defoultColor,
         elevation: 0,
         leading: BackButton(
           color: Colors.white,
@@ -115,7 +119,6 @@ class _WalletHistoryScreenState extends State<WalletHistoryScreen> {
           style: const TextStyle(
             fontFamily: FontFamily.gilroyBold,
             fontSize: 17,
-            color: Colors.white,
           ),
         ),
       ),
@@ -128,7 +131,7 @@ class _WalletHistoryScreenState extends State<WalletHistoryScreen> {
                       children: [
                         Container(
                           height: 120,
-                          color: gradient.defoultColor,
+                          color: primeryColor,
                         ),
                         Expanded(
                           child: Container(

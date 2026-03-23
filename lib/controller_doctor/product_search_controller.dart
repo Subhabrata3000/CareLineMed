@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry/Api/data_store.dart';
+import 'package:carelinemed/Api/data_store.dart';
 import '../Api/config.dart';
 import '../model_doctor/search_product_model.dart';
 

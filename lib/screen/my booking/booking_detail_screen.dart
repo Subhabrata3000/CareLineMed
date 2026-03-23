@@ -14,10 +14,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/screen/my%20booking/vital_list_screen.dart';
-import 'package:laundry/utils/customwidget.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/screen/my%20booking/vital_list_screen.dart';
+import 'package:carelinemed/utils/customwidget.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -242,12 +242,15 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: bgcolor,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
         toolbarHeight: 70,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -257,31 +260,21 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 15),
-          child: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              shape: BoxShape.circle,
-            ),
-            child: BackButton(
-              color: BlackColor,
-              onPressed: () {
-                Get.back();
-              },
-            ),
+          child: BackButton(
+            color: WhiteColor,
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         title: Text(
           "Appointment Detail".tr,
           style: TextStyle(
-            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 16,
             fontFamily: FontFamily.gilroyExtraBold,
           ),
         ),
-        centerTitle: true,
       ),
       body: GetBuilder<AppointmentDetailDoctorController>(
         builder: (context) {
@@ -292,90 +285,119 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: WhiteColor,
                           borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade200,
+                              blurRadius: 10,
+                              spreadRadius: 1,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
                         ),
                         child: Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                              child: FadeInImage.assetNetwork(
-                                width: Get.width,
-                                fit: BoxFit.cover,
-                                placeholder: "assets/ezgif.com-crop.gif",
-                                placeholderFit: BoxFit.cover,
-                                image: "${Config.imageBaseurlDoctor}${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.logo}",
-                              ),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.grey.shade200),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(30),
+                                    child: FadeInImage.assetNetwork(
+                                      fit: BoxFit.cover,
+                                      placeholder: "assets/ezgif.com-crop.gif",
+                                      image: "${Config.imageBaseurlDoctor}${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.logo}",
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 15),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.name}",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontFamily: FontFamily.gilroyExtraBold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "${apointmentDetailDoctorController.appointmentDetailModel!.sebservice!.departmentName} • ${apointmentDetailDoctorController.appointmentDetailModel!.sebservice!.subTitle}",
+                                        style: TextStyle(
+                                          color: Colors.grey.shade600,
+                                          fontSize: 13,
+                                          fontFamily: FontFamily.gilroyMedium,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.name}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FontFamily.gilroyExtraBold,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "${apointmentDetailDoctorController.appointmentDetailModel!.sebservice!.departmentName}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: FontFamily.gilroyBold,
-                              ),
-                            ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 20),
+                            Divider(color: Colors.grey.shade200, thickness: 1, height: 1),
+                            SizedBox(height: 15),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 for(int i = 0; i < apointmentDetailDoctorController.communicationIcon.length; i++)...[
-                                  Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          if(i == 0){
-                                            _makingPhoneCall(number: "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.countryCode}${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.phone}");
-                                          } else if (i == 1) {
-                                            Get.to(
-                                              MessageScreen(
-                                                userImage: "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.logo}",
-                                                username: "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.name}",
-                                                receiverId: "${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.doctorId}",
-                                                senderId: getData.read("UserLogin")["id"].toString(),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 50,
+                                  GestureDetector(
+                                    onTap: () {
+                                      if(i == 0){
+                                        _makingPhoneCall(number: "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.countryCode}${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.phone}");
+                                      } else if (i == 1) {
+                                        Get.to(
+                                          MessageScreen(
+                                            userImage: "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.logo}",
+                                            username: "${apointmentDetailDoctorController.appointmentDetailModel!.doctor!.name}",
+                                            receiverId: "${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.doctorId}",
+                                            senderId: getData.read("UserLogin")["id"].toString(),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 45,
+                                          width: 45,
                                           decoration: BoxDecoration(
+                                            color: gradient.defoultColor.withOpacity(0.05),
                                             shape: BoxShape.circle,
-                                            border: Border.all(color: Colors.grey),
+                                            border: Border.all(color: gradient.defoultColor.withOpacity(0.2)),
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.all(12),
                                             child: SvgPicture.asset(
                                               apointmentDetailDoctorController.communicationIcon[i],
+                                              color: gradient.defoultColor,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        apointmentDetailDoctorController.communicationText[i],
-                                        style: TextStyle(
-                                          fontFamily: FontFamily.gilroyBold,
-                                        ),
-                                      )
-                                    ],
+                                        SizedBox(height: 6),
+                                        Text(
+                                          apointmentDetailDoctorController.communicationText[i],
+                                          style: TextStyle(
+                                            fontFamily: FontFamily.gilroyBold,
+                                            fontSize: 12,
+                                            color: Colors.grey.shade700,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  if(i != apointmentDetailDoctorController.communicationIcon.length - 1)...[SizedBox(width: 15)],
                                 ],
                               ],
                             ),
@@ -388,223 +410,181 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                         decoration: BoxDecoration(
                           color: WhiteColor,
                           borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade200,
+                              blurRadius: 10,
+                              spreadRadius: 1,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "About appointment".tr,
+                                "Appointment Details".tr,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                   fontFamily: FontFamily.gilroyExtraBold,
                                 ),
                               ),
+                              SizedBox(height: 15),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${apointmentDetailDoctorController.appointmentDetailModel!.sebservice!.subTitle}",
-                                          style: TextStyle(
-                                            color: textcolor,
-                                            fontSize: 16,
-                                            fontFamily: FontFamily.gilroyBold,
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              height: 20,
-                                              child: Image.asset("assets/calendar1.png"),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              "${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.appointmentDate.toString().split(" ").first} ${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.appointmentTime}",
-                                              style: TextStyle(
-                                                fontFamily: FontFamily.gilroyBold,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                    child: Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(color: Colors.grey.shade50, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade100)),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Date".tr, style: TextStyle(color: Colors.grey.shade500, fontSize: 12, fontFamily: FontFamily.gilroyMedium)),
+                                          SizedBox(height: 4),
+                                          Text("${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.appointmentDate.toString().split(" ").first}", style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: FontFamily.gilroyBold)),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: 65,
-                                        width: 65,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey),
-                                          borderRadius: BorderRadius.circular(12),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                              "${Config.imageBaseurlDoctor}${apointmentDetailDoctorController.appointmentDetailModel!.sebservice!.image}",
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(color: Colors.grey.shade50, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade100)),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Time".tr, style: TextStyle(color: Colors.grey.shade500, fontSize: 12, fontFamily: FontFamily.gilroyMedium)),
+                                          SizedBox(height: 4),
+                                          Text("${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.appointmentTime}", style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: FontFamily.gilroyBold)),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
                               SizedBox(height: 10),
-                              Container(
-                                width: Get.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  border: Border.all(color: Colors.grey.withOpacity(0.4)),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(color: Colors.grey.shade50, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade100)),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            alignment: Alignment.center,
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.withOpacity(0.2),
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            child: SvgPicture.asset(
-                                              apointmentDetailDoctorController.appointmentDetailModel!.appoint!.showType == "2"
-                                                  ? "assets/camera_video.svg"
-                                                  : "assets/hospital.svg",
-                                            ),
-                                          ),
-                                          SizedBox(width: 10),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "${apointmentDetailDoctorController.appointmentDetailModel!.hospital!.name}",
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 16,
-                                                    fontFamily: FontFamily.gilroyBold,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  apointmentDetailDoctorController.appointmentDetailModel!.appoint!.showType == "2"
-                                                    ? "In Video appointment".tr
-                                                    : "In Person appointment".tr,
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: FontFamily.gilroyMedium,
-                                                        ),
-                                                      ),
-                                                SizedBox(height: 3),
-                                                Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 20,
-                                                      child: Image.asset(
-                                                        "assets/calendar1.png",
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 5),
-                                                    Text(
-                                                      "${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.appointmentDate} ${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.appointmentTime}",
-                                                      style: TextStyle(
-                                                        fontFamily: FontFamily.gilroyMedium,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          )
+                                          Text("Mode".tr, style: TextStyle(color: Colors.grey.shade500, fontSize: 12, fontFamily: FontFamily.gilroyMedium)),
+                                          SizedBox(height: 4),
+                                          Text(apointmentDetailDoctorController.appointmentDetailModel!.appoint!.showType == "2" ? "Video".tr : "In-Person".tr, style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: FontFamily.gilroyBold)),
                                         ],
                                       ),
-                                      apointmentDetailDoctorController.appointmentDetailModel!.appoint!.showType == "2"
-                                          ? apointmentDetailDoctorController.appointmentDetailModel!.appoint!.status == "4" || apointmentDetailDoctorController.appointmentDetailModel!.appoint!.status == "5"
-                                              ? SizedBox()
-                                              : apointmentDetailDoctorController.remainingTime == 0
-                                                  ? Column(
-                                                      children: [
-                                                        SizedBox(height: 14),
-                                                        GetBuilder<SendNotificationController>(
-                                                          builder: (sendNotificationController) {
-                                                            return sendNotificationController.sendNotifiactionLoding
-                                                            ? loaderButton()
-                                                            : button(
-                                                              text: "Send Notification".tr,
-                                                              color: primeryColor,
-                                                              onPress: () {
-                                                                sendNotificationController.sendNotificationApi(context: context, doctorId: apointmentDetailDoctorController.appointmentDetailModel!.appoint!.doctorId.toString());
-                                                              },
-                                                            );
-                                                          }
-                                                        ),
-                                                      ],
-                                                    )
-                                                  : Column(
-                                                      children: [
-                                                        SizedBox(height: 14),
-                                                        Container(
-                                                          padding: EdgeInsets.all(10),
-                                                          decoration: BoxDecoration(
-                                                            border: Border.all(color: Colors.grey.withOpacity(0.4)),
-                                                            borderRadius: BorderRadius.circular(25),
-                                                          ),
-                                                          child: Center(
-                                                            child: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                              children: [
-                                                                Text(
-                                                                  "${"Join video Call".tr} - ",
-                                                                  style: TextStyle(
-                                                                    color: Colors .black,
-                                                                    fontSize: 14,
-                                                                    fontFamily: FontFamily.gilroyBold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "${apointmentDetailDoctorController.formatTime(apointmentDetailDoctorController.remainingTime)} ",
-                                                                  style: TextStyle(
-                                                                    color: primeryColor,
-                                                                    fontSize: 14,
-                                                                    fontFamily: FontFamily.gilroyBold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "left".tr,
-                                                                  style:  TextStyle(
-                                                                    color: Colors.black,
-                                                                    fontSize: 14,
-                                                                    fontFamily: FontFamily.gilroyBold,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                          : SizedBox(),
-                                      // SizedBox(height: 10),
-                                    ],
+                                    ),
                                   ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(color: Colors.grey.shade50, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade100)),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Amount".tr, style: TextStyle(color: Colors.grey.shade500, fontSize: 12, fontFamily: FontFamily.gilroyMedium)),
+                                          SizedBox(height: 4),
+                                          Text("${getData.read("currency") ?? "₹"}${apointmentDetailDoctorController.appointmentDetailModel!.appoint!.totPrice}", style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: FontFamily.gilroyBold)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "Hospital".tr,
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 12,
+                                  fontFamily: FontFamily.gilroyMedium,
                                 ),
                               ),
+                              SizedBox(height: 5),
+                              Text(
+                                "${apointmentDetailDoctorController.appointmentDetailModel!.hospital!.name}",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontFamily: FontFamily.gilroyBold,
+                                ),
+                              ),
+                              apointmentDetailDoctorController.appointmentDetailModel!.appoint!.showType == "2"
+                                  ? apointmentDetailDoctorController.appointmentDetailModel!.appoint!.status == "4" || apointmentDetailDoctorController.appointmentDetailModel!.appoint!.status == "5"
+                                      ? SizedBox()
+                                      : apointmentDetailDoctorController.remainingTime == 0
+                                          ? Column(
+                                              children: [
+                                                SizedBox(height: 14),
+                                                GetBuilder<SendNotificationController>(
+                                                  builder: (sendNotificationController) {
+                                                    return sendNotificationController.sendNotifiactionLoding
+                                                    ? loaderButton()
+                                                    : button(
+                                                      text: "Send Notification".tr,
+                                                      color: primeryColor,
+                                                      onPress: () {
+                                                        sendNotificationController.sendNotificationApi(context: context, doctorId: apointmentDetailDoctorController.appointmentDetailModel!.appoint!.doctorId.toString());
+                                                      },
+                                                    );
+                                                  }
+                                                ),
+                                              ],
+                                            )
+                                          : Column(
+                                              children: [
+                                                SizedBox(height: 14),
+                                                Container(
+                                                  padding: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(color: Colors.grey.withOpacity(0.4)),
+                                                    borderRadius: BorderRadius.circular(25),
+                                                  ),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        Text(
+                                                          "${"Join video Call".tr} - ",
+                                                          style: TextStyle(
+                                                            color: Colors .black,
+                                                            fontSize: 14,
+                                                            fontFamily: FontFamily.gilroyBold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          "${apointmentDetailDoctorController.formatTime(apointmentDetailDoctorController.remainingTime)} ",
+                                                          style: TextStyle(
+                                                            color: primeryColor,
+                                                            fontSize: 14,
+                                                            fontFamily: FontFamily.gilroyBold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          "left".tr,
+                                                          style:  TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14,
+                                                            fontFamily: FontFamily.gilroyBold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                  : SizedBox(),
                             ],
                           ),
                         ),

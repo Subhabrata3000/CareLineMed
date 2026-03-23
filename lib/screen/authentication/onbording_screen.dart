@@ -9,11 +9,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/screen/bottombarpro_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/utils/String.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/screen/bottombarpro_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/utils/String.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'login_screen.dart';
 
 var lat;
@@ -113,15 +115,79 @@ class _SplashScreenState extends State<SplashScreen> {
         return await popScopeBack();
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: gradient.splashGradient,
+          ),
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              SvgPicture.asset("assets/appLogo.svg", height: 120, width: 120),
-              SizedBox(height: 10),
-              SizedBox(),
+              // Central Logo with subtle shadow/glow
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(36),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.15),
+                          blurRadius: 40,
+                          spreadRadius: 10,
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(36),
+                      child: Image.asset(
+                        "assets/logo/img.png",
+                        height: 200,
+                        width: 200,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    "CarelineMed",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontFamily: FontFamily.poppins,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+              // Bottom slogan and version
+              Positioned(
+                bottom: 50,
+                child: Column(
+                  children: [
+                    Text(
+                      "Your Health, Our Priority",
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 16,
+                        fontFamily: FontFamily.poppins,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 3,
+                      width: 100,
+                      child: LinearProgressIndicator(
+                        backgroundColor: Colors.white.withOpacity(0.2),
+                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -131,59 +197,50 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 class BoardingPage extends StatefulWidget {
-  const BoardingPage({super.key});
+  const BoardingPage({Key? key}) : super(key: key);
 
   @override
-  BoardingScreenState createState() => BoardingScreenState();
+  State<BoardingPage> createState() => _BoardingPageState();
 }
 
-class BoardingScreenState extends State<BoardingPage> {
-  @override
-  void initState() {
-    super.initState();
-    _currentPage = 0;
-    _slides = [
-      Slide("assets/doc.jpeg", "Your Health, Simplified", provider.healthy),
-      Slide("assets/doc.jpeg", "Healthcare at Your Fingertips",
-          provider.orderthe),
-      Slide("assets/doc.jpeg", "Welcome to Better Health", provider.cooking),
-    ];
-
-    _pageController = PageController(initialPage: _currentPage);
-  }
-
+class _BoardingPageState extends State<BoardingPage> {
+  final PageController _controller = PageController();
   int _currentPage = 0;
-  List<Slide> _slides = [];
-  PageController _pageController = PageController();
 
-  Widget _buildFloatingCard({
-    required Widget child,
-    double? top,
-    double? bottom,
-    double? left,
-    double? right,
-  }) {
-    return Positioned(
-      top: top,
-      bottom: bottom,
-      left: left,
-      right: right,
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: child,
-      ),
-    );
+  final List<_OnboardData> _pages = [
+    _OnboardData(
+      icon: Icons.medication_rounded,
+      title: 'Order Medicines\nAnytime',
+      subtitle:
+          'Search from thousands of medicines and get them delivered to your doorstep within hours.',
+      color: const Color(0xFF00A89F),
+    ),
+    _OnboardData(
+      icon: Icons.video_call_rounded,
+      title: 'Consult Doctors\nOnline',
+      subtitle:
+          'Book appointments, video call, or chat with certified doctors from the comfort of your home.',
+      color: const Color(0xFF00ACC1),
+    ),
+    _OnboardData(
+      icon: Icons.local_shipping_rounded,
+      title: 'Fast & Reliable\nDelivery',
+      subtitle:
+          'Track your order in real-time with our dedicated delivery network across your city.',
+      color: const Color(0xFF43A047),
+    ),
+    _OnboardData(
+      icon: Icons.security_rounded,
+      title: 'Safe & Secure\nPayments',
+      subtitle:
+          'Pay via UPI, cards, net banking or wallet. Your transactions are always safe with us.',
+      color: const Color(0xFF7B1FA2),
+    ),
+  ];
+
+  void _finish() {
+    loginSharedPreferencesSet(false);
+    Get.offAll(() => const LoginScreen());
   }
 
   @override
@@ -193,226 +250,98 @@ class BoardingScreenState extends State<BoardingPage> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            // Top Headline
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 38,
-                    fontFamily: "Gilroy Bold",
-                    color: BlackColor,
-                    height: 1.1,
-                  ),
-                  children: [
-                    const TextSpan(text: "Let's Get to Know You and "),
-                    TextSpan(
-                      text: "Your Health Goals",
-                      style: TextStyle(color: primeryColor),
-                    ),
-                  ],
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: TextButton(
+                  onPressed: _finish,
+                  child: Text('Skip',
+                      style: TextStyle(
+                        fontFamily: FontFamily.gilroyMedium,
+                        color: greycolor,
+                        fontSize: 15,
+                      )),
                 ),
               ),
             ),
-
-            const SizedBox(height: 30),
-
-            // Middle Section: Doctor Image with Floating Cards
             Expanded(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // Doctor Image
-                  Positioned(
-                    bottom: 20,
-                    left: 30,
-                    child: Container(
-                      height: Get.height * 0.45,
-                      width: Get.width * 0.9,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/doc1.png"),
-                          fit: BoxFit.contain,
-                          alignment: Alignment.bottomCenter,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Floating Card 1: Review/Quote (Top Left)
-                  _buildFloatingCard(
-                    top: 2,
-                    left: 20,
-                    child: SizedBox(
-                      width: 140,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.format_quote,
-                              color: primeryColor, size: 20),
-                          const SizedBox(height: 4),
-                          Text(
-                            "This app is really helpful in providing fast and quality care.",
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontFamily: "Gilroy Medium",
-                              color: greycolor,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                  radius: 8,
-                                  backgroundImage:
-                                      AssetImage("assets/user1.png"),
-                                  backgroundColor:
-                                      primeryColor.withOpacity(0.2)),
-                              const SizedBox(width: 4),
-                              Text(
-                                "Rahmat W.",
-                                style: TextStyle(
-                                    fontSize: 8, fontFamily: "Gilroy Bold"),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Floating Card 2: Blue Status Card (Right)
-                  Positioned(
-                    top: 100,
-                    right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: primeryColor,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: primeryColor.withOpacity(0.3),
-                            blurRadius: 15,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Caring\nfrom Afar",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontFamily: "Gilroy Bold",
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "Your Health Our Priority",
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              fontSize: 8,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            "More details >",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 8,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Floating Card 3: Doctor Name Card (Bottom Left)
-                  _buildFloatingCard(
-                    bottom: 100,
-                    left: 30,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CircleAvatar(
-                          radius: 12,
-                          backgroundImage: AssetImage("assets/doc.jpeg"),
-                        ),
-                        const SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Dr. Fata Hibban",
-                              style: TextStyle(
-                                  fontSize: 10, fontFamily: "Gilroy Bold"),
-                            ),
-                            Text(
-                              "Endocrinologist",
-                              style: TextStyle(fontSize: 8, color: greycolor),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 12),
-                        Icon(Icons.star, color: Colors.orange, size: 10),
-                        const SizedBox(width: 2),
-                        Text("4.8",
-                            style: TextStyle(
-                                fontSize: 10, fontFamily: "Gilroy Bold")),
-                      ],
-                    ),
-                  ),
-                ],
+              child: PageView.builder(
+                controller: _controller,
+                onPageChanged: (i) => setState(() => _currentPage = i),
+                itemCount: _pages.length,
+                itemBuilder: (ctx, i) => _OnboardPage(data: _pages[i]),
               ),
             ),
-
-            // Bottom Section
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+            Padding(
+              padding: const EdgeInsets.all(32),
               child: Column(
                 children: [
-                  Text(
-                    "Shaping a Healthier Future by Making the Right\nChoices to Maintain and Improve Your Wellbeing",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: greycolor,
-                      fontFamily: "Gilroy Medium",
-                      height: 1.5,
+                  SmoothPageIndicator(
+                    controller: _controller,
+                    count: _pages.length,
+                    effect: ExpandingDotsEffect(
+                      activeDotColor: primeryColor,
+                      dotColor: greycolor.withOpacity(0.3),
+                      dotHeight: 8,
+                      dotWidth: 8,
+                      expansionFactor: 4,
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(() => const LoginScreen());
-                      save("isBack", true);
-                    },
-                    child: Container(
-                      height: 56,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: primeryColor,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Get Started",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: "Gilroy Bold",
+                  const SizedBox(height: 32),
+                  _currentPage < _pages.length - 1
+                      ? InkWell(
+                          onTap: () => _controller.nextPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                          ),
+                          child: Container(
+                            height: 56,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: primeryColor,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Next",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontFamily: FontFamily.gilroyBold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : InkWell(
+                          onTap: _finish,
+                          child: Container(
+                            height: 56,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: primeryColor,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Get Started",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontFamily: FontFamily.gilroyBold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -421,6 +350,58 @@ class BoardingScreenState extends State<BoardingPage> {
       ),
     );
   }
+}
+
+class _OnboardPage extends StatelessWidget {
+  final _OnboardData data;
+  const _OnboardPage({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 180,
+            height: 180,
+            decoration: BoxDecoration(
+              color: data.color.withOpacity(0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(data.icon, size: 90, color: data.color),
+          ),
+          const SizedBox(height: 40),
+          Text(
+            data.title,
+            style: TextStyle(fontFamily: FontFamily.gilroyExtraBold, fontSize: 26, color: BlackColor, height: 1.2),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            data.subtitle,
+            style: TextStyle(fontFamily: FontFamily.gilroyMedium, fontSize: 16, color: greycolor, height: 1.6),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OnboardData {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color color;
+
+  _OnboardData({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+  });
 }
 
 void loginSharedPreferencesSet(bool value) async {
@@ -434,13 +415,7 @@ Future<bool> loginSharedPreferencesGet() async {
   return value;
 }
 
-class Slide {
-  String image;
-  String heading;
-  String subtext;
 
-  Slide(this.image, this.heading, this.subtext);
-}
 
 Future<Position> locateUser() async {
   return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

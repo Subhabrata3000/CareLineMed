@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
-import 'package:laundry/screen/bottombarpro_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/screen/video_call/vc_provider.dart';
+import 'package:carelinemed/screen/bottombarpro_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/screen/video_call/vc_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import '../../Api/config.dart';

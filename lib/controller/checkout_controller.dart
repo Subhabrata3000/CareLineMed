@@ -6,11 +6,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:laundry/Api/data_store.dart';
-import 'package:laundry/model/font_family_model.dart';
-import 'package:laundry/screen/home_screen.dart';
-import 'package:laundry/utils/custom_colors.dart';
-import 'package:laundry/widget/button.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/model/font_family_model.dart';
+import 'package:carelinemed/screen/home_screen.dart';
+import 'package:carelinemed/utils/custom_colors.dart';
+import 'package:carelinemed/widget/button.dart';
 import '../Api/config.dart';
 import '../model/checkout_model.dart';
 import '../screen/bottombarpro_screen.dart';
@@ -33,6 +33,7 @@ class CheckOutController extends GetxController implements GetxService {
   var useWallet = 0.0;
   int couponAmt = 0;
   double commission = 0;
+  double salesTax = 0;
   double sitterCharge = 0;
 
   int paymentSelect = 0;
@@ -92,7 +93,9 @@ class CheckOutController extends GetxController implements GetxService {
           debugPrint("========== prescriptionRequire ========== $prescriptionRequire");
           debugPrint("============== commission =============== $commission");
           debugPrint("=============== subtotal ================ $subtotal");
-          total = subtotal + commission;
+          salesTax = subtotal * 0.05; // Added 5% Sales Tax 
+          debugPrint("============== salesTax =============== $salesTax");
+          total = subtotal + commission + salesTax;
           isLoading = true;
           update();
           return data;

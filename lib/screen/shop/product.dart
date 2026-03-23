@@ -3,18 +3,19 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:laundry/Api/config.dart';
-import 'package:laundry/controller/cart_shop_controller.dart';
-import 'package:laundry/model_doctor/product_list_model.dart';
-import 'package:laundry/screen/authentication/onbording_screen.dart';
-import 'package:laundry/screen/shop/cart_add_bottomsheet.dart';
-import 'package:laundry/screen/shop/checkout_screen.dart';
-import 'package:laundry/screen/shop/product_details.dart';
-import 'package:laundry/screen/shop/product_search_screen.dart';
-import 'package:laundry/widget/custom_title.dart';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/controller/cart_shop_controller.dart';
+import 'package:carelinemed/model_doctor/product_list_model.dart';
+import 'package:carelinemed/screen/authentication/onbording_screen.dart';
+import 'package:carelinemed/screen/shop/cart_add_bottomsheet.dart';
+import 'package:carelinemed/screen/shop/checkout_screen.dart';
+import 'package:carelinemed/screen/shop/product_details.dart';
+import 'package:carelinemed/screen/shop/product_search_screen.dart';
+import 'package:carelinemed/widget/custom_title.dart';
 
 import '../../Api/data_store.dart';
 import '../../controller_doctor/product_controller.dart';
@@ -158,13 +159,15 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: bgcolor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: WhiteColor,
         elevation: 0,
-        iconTheme: IconThemeData(color: BlackColor),
         titleSpacing: 0,
         title: InkWell(
           onTap: () async {
@@ -315,7 +318,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                         clipBehavior: Clip.none,
                                         enlargeCenterPage: true,
                                         scrollDirection: Axis.horizontal,
-                                        autoPlay: true,
+                                        autoPlay: productController.productModel!.bannerList!.length > 1,
                                         onPageChanged: (index, reason) {
                                           setState(() {
                                             selectIndexSlider = index;
