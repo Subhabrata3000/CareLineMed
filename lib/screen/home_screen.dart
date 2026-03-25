@@ -1,38 +1,37 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:ui';
+import 'package:carelinemed/Api/config.dart';
+import 'package:carelinemed/Api/data_store.dart';
+import 'package:carelinemed/controller/lab_category_controller.dart';
+import 'package:carelinemed/controller_doctor/product_list_controller.dart';
+import 'package:carelinemed/screen/chat/chat_screen.dart';
+import 'package:carelinemed/screen/doctor_info_screen.dart';
+import 'package:carelinemed/screen/lab/lab_category_screen.dart';
+import 'package:carelinemed/screen/lab/lab_list_screen.dart';
+import 'package:carelinemed/screen/lab/packages_screen.dart';
+import 'package:carelinemed/screen/map_pages/map_screen.dart';
+import 'package:carelinemed/screen/notification_screen.dart';
+import 'package:carelinemed/screen/shop/product_details.dart';
+import 'package:carelinemed/screen/shop/shops.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:carelinemed/Api/config.dart';
-import 'package:carelinemed/Api/data_store.dart';
-import 'package:carelinemed/screen/chat/chat_screen.dart';
-import 'package:carelinemed/screen/doctor_info_screen.dart';
-import 'package:carelinemed/screen/lab/packages_screen.dart';
-import 'package:carelinemed/screen/notification_screen.dart';
-import 'package:carelinemed/screen/shop/product.dart';
+
+import '../../model/font_family_model.dart';
 import '../controller_doctor/add_doctor_detail_controller.dart';
 import '../controller_doctor/home_controller.dart';
+import '../utils/custom_colors.dart';
 import '../widget/add_pet_bottom.dart';
-import '../../model/font_family_model.dart';
+import '../widget/category_tab.dart';
+import 'all_categories_screen.dart';
 import 'authentication/onbording_screen.dart';
 import 'bottombarpro_screen.dart';
 import 'category_screen.dart';
-import '../utils/custom_colors.dart';
 import 'home_search_screen.dart';
-import 'package:carelinemed/controller/lab_category_controller.dart';
-import 'package:carelinemed/screen/lab/lab_list_screen.dart';
-import 'package:carelinemed/controller_doctor/product_list_controller.dart';
-import 'package:carelinemed/screen/shop/product_details.dart';
-import 'package:carelinemed/screen/shop/shops.dart';
-import 'package:carelinemed/screen/lab/lab_category_screen.dart';
-import 'package:carelinemed/screen/map_pages/map_screen.dart';
-import 'all_categories_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -54,6 +53,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late Animation<double> _headerAnimation;
   late Animation<double> _contentAnimation;
 
+  late TabController tabController;
+
   AddPetController addPetController = Get.put(AddPetController());
   AddDoctorDetailController addDoctorDetailController = Get.put(AddDoctorDetailController());
   TextEditingController locationController = TextEditingController();
@@ -63,6 +64,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
+
     getCurrentLatAndLong();
 
     labCategoryController.labApi();
@@ -70,6 +73,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     productListController.productListApi(doctorId: "40", categoryId: "124").then((value) {
       productListController.update();
       setState(() {});
+    });
+
+    tabController = TabController(
+    length: 6,
+    vsync: this,
+    );
+
+    tabController.addListener(() {
+      if (tabController.indexIsChanging) {
+        print("Selected Tab: ${tabController.index}");
+
+        //call API based on tab
+        productListController.productListApi(
+          doctorId: "40",
+          categoryId: tabController.index.toString(),
+        );
+      }
     });
 
     _fadeController = AnimationController(
@@ -107,11 +127,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       if (mounted) _contentController.forward();
     });
     _fadeController.forward();
-    super.initState();
+
   }
 
   @override
   void dispose() {
+    tabController.dispose();
     _fadeController.dispose();
     _headerController.dispose();
     _contentController.dispose();
@@ -174,6 +195,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 // 1. THE WHITE PREMIUM HEADER
                 _buildSliverHeader(),
 
+                //the TabBar
+                _tabBar(tabController),
+
                 // 2. MAIN CONTENT BODY
                 SliverToBoxAdapter(
                   child: FadeTransition(
@@ -183,9 +207,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       children: [
                         const SizedBox(height: 5),
 
-                        // 3. CONSULT TOP DOCTORS
+                        // 2.5 QUICK ACTIONS GRID
                         _buildAnimatedSection(
                           delay: 0,
+                          child: _buildQuickActionsGrid(),
+                        ),
+                        const SizedBox(height: 15),
+
+                        // 3. CONSULT TOP DOCTORS
+                        _buildAnimatedSection(
+                          delay: 50,
                           child: _buildBannerSection(homeController),
                         ),
                         const SizedBox(height: 15),
@@ -304,88 +335,89 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             end: Offset.zero,
           ).animate(_headerAnimation),
           child: Container(
-            color: const Color(0xFFF8F9FD),
-            padding: const EdgeInsets.fromLTRB(20, 55, 20, 15),
+            padding: const EdgeInsets.fromLTRB(15, 50, 15, 15),
+            decoration: const BoxDecoration(
+              color: Color(0xFF2BAE9E),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(2),
+                bottomRight: Radius.circular(2),
+              ),
+            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                ///LOCATION
                 Row(
+                  children: [
+                    const Icon(Icons.location_on, color: Colors.white),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        (address != null && address.isNotEmpty) ? address : "address",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 10),
+
+                // PROFILE + LOGO + GRID MENU
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ScaleTransition(
                       scale: _headerAnimation,
                       child: Container(
-                        height: 58,
-                        width: 58,
-                        decoration: BoxDecoration(
+                        height: 50,
+                        width: 50,
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: primeryColor.withOpacity(0.1),
-                              blurRadius: 15,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
                         ),
                         child: getData.read("UserLogin") == null
-                            ? Icon(Icons.person, color: primeryColor, size: 30)
+                            ? const Icon(Icons.person, color: Colors.grey, size: 30)
                             : ClipOval(
-                          child: FadeInImage.assetNetwork(
-                            placeholder: "assets/ezgif.com-crop.gif",
-                            image: "${Config.imageBaseurlDoctor}${getData.read("UserLogin")["image"]}",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: "assets/ezgif.com-crop.gif",
+                                  image: "${Config.imageBaseurlDoctor}${getData.read("UserLogin")["image"]}",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                       ),
                     ),
-                    const SizedBox(width: 15),
 
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Hello",
-                            style: TextStyle(
-                              fontFamily: FontFamily.gilroyMedium,
-                              fontSize: 18,
-                              color: const Color(0xFF2E3E5C),
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            getData.read("UserLogin") == null
-                                ? "Guest!"
-                                : "${getData.read("UserLogin")["name"]}!",
-                            style: TextStyle(
-                              fontFamily: FontFamily.gilroyExtraBold,
-                              fontSize: 26,
-                              color: primeryColor,
-                              height: 1.2,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                      child: Center(
+                        child: Image.asset(
+                          "assets/logo/img-removebg.png",
+                          height: 60,
+                          width: 180,
+                        ),
                       ),
                     ),
 
                     ScaleTransition(
                       scale: _headerAnimation,
                       child: PopupMenuButton<int>(
-                        icon: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: AppDesign.shadowSoft,
-                          ),
-                          child: const Icon(Icons.grid_view_rounded, color: Color(0xFF2E3E5C), size: 28),
-                        ),
-                        offset: const Offset(0, 60),
+                        offset: const Offset(0, 50),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         color: Colors.white,
                         elevation: 2,
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.grid_view_rounded, color: primeryColor, size: 26),
+                        ),
                         onSelected: (value) {
                           if (value == 1) {
                             if (getData.read("UserLogin") == null) {
@@ -404,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 Icon(Icons.chat_bubble_outline_rounded, color: primeryColor, size: 22),
                                 const SizedBox(width: 12),
-                                const Text("Chats", style: TextStyle(fontFamily: FontFamily.gilroyMedium)),
+                                const Text("Chats", style: TextStyle(fontFamily: 'Gilroy', color: Colors.black)),
                               ],
                             ),
                           ),
@@ -414,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 Icon(Icons.notifications_none_rounded, color: primeryColor, size: 22),
                                 const SizedBox(width: 12),
-                                const Text("Notifications", style: TextStyle(fontFamily: FontFamily.gilroyMedium)),
+                                const Text("Notifications", style: TextStyle(fontFamily: 'Gilroy', color: Colors.black)),
                               ],
                             ),
                           ),
@@ -424,60 +456,195 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ],
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 15),
 
-                GestureDetector(
-                  onTap: () => Get.to(const HomeSearchScreen()),
-                  child: Container(
-                    height: 65,
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 22),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(22),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.03),
-                          blurRadius: 10,
-                          offset: const Offset(0, 3),
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Looking for Doctors?",
-                                style: TextStyle(
-                                  fontFamily: FontFamily.gilroyBold,
-                                  fontSize: 17,
-                                  color: const Color(0xFF2E3E5C),
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              Text(
-                                "Search by name or department",
-                                style: TextStyle(
-                                  fontFamily: FontFamily.gilroyMedium,
-                                  fontSize: 13,
-                                  color: Colors.grey.shade500,
-                                ),
-                              ),
-                            ],
-                          ),
+                // SEARCH BAR
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.to(const HomeSearchScreen()),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        height: 50,
+                        width: MediaQuery.of(context).size.width / 1.3,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        Icon(Icons.search, color: Colors.grey[400], size: 30),
-                      ],
+                        child: Row(
+                          children: [
+                            const Icon(Icons.search, color: Colors.grey),
+                            const SizedBox(width: 10),
+                            const Expanded(
+                              child: Text(
+                                "Search Medicines, Brands & Wellness",
+                                style: TextStyle(color: Colors.grey, fontSize: 13),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const Icon(Icons.camera_alt_outlined, color: Colors.grey),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        //navigate to cart page..
+                      },
+                      child: const Icon(Icons.shopping_cart_outlined, size: 30, color: Colors.white),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _tabBar(TabController tabController) {
+  return SliverPersistentHeader(
+    pinned: true,
+    delegate: _StickyTabBarDelegate(
+      child: Material(
+        color: const Color(0xFFF8F9FD),
+        child: Container(
+          height: 90,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: TabBar(
+            controller: tabController,
+            isScrollable: true,
+            indicatorColor: Colors.transparent,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+            tabs: [
+              CategoryTab(icon: Icons.grid_view, title: "All", index: 0, controller: tabController),
+              CategoryTab(icon: Icons.receipt, title: "Prescription", index: 1, controller: tabController),
+              CategoryTab(icon: Icons.child_care, title: "Baby Care", index: 2, controller: tabController),
+              CategoryTab(icon: Icons.favorite, title: "Wellness", index: 3, controller: tabController),
+              CategoryTab(icon: Icons.local_mall_outlined, title: "Our Product", index: 4, controller: tabController),
+              CategoryTab(icon: Icons.face, title: "Skincare", index: 5, controller: tabController),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+  Widget _buildQuickActionsGrid() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: _buildQuickActionCard(
+                  title: "Upload Prescription\n& Order",
+                  icon: Icons.camera_alt_outlined,
+                  onTap: () {},
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildQuickActionCard(
+                  title: "Order Medicines",
+                  subtitle: "(Fast Delivery)",
+                  icon: Icons.medication,
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: _buildQuickActionCard(
+                  title: "Book\nLab Tests",
+                  icon: Icons.science_outlined,
+                  onTap: () {},
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildQuickActionCard(
+                  title: "Consult\nDoctors Online",
+                  icon: Icons.medical_services_outlined,
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuickActionCard({
+    required String title,
+    String? subtitle,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 75,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.08),
+              spreadRadius: 1,
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 2,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontFamily: FontFamily.gilroyBold,
+                      color: Colors.black87,
+                      height: 1.2,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 3),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontFamily: FontFamily.gilroyMedium,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(width: 6),
+            Icon(icon, color: primeryColor, size: 28),
+          ],
         ),
       ),
     );
@@ -1946,5 +2113,27 @@ class ShimmerSkeleton extends StatelessWidget {
       height: height, width: width,
       decoration: BoxDecoration(color: Colors.grey[200], borderRadius: borderRadius ?? BorderRadius.circular(12)),
     );
+  }
+}
+
+class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+
+  _StickyTabBarDelegate({required this.child});
+
+  @override
+  double get minExtent => 90.0;
+
+  @override
+  double get maxExtent => 90.0;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return child;
+  }
+
+  @override
+  bool shouldRebuild(_StickyTabBarDelegate oldDelegate) {
+    return true;
   }
 }
