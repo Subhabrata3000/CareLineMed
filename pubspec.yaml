@@ -87,9 +87,10 @@ dependencies:
   dio: ^5.3.3
   dropdown_button2: ^2.3.9
   image_gallery_saver_plus: ^4.0.1
-  smooth_page_indicator: ^2.0.1
+  smooth_page_indicator: ^1.1.0
   google_api_headers: ^4.3.1
   path_provider: ^2.1.5
+
 
 
 
