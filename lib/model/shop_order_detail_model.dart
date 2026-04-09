@@ -14,6 +14,7 @@ class ShopOrderDetailModel {
     String? message;
     OrderDetail? orderDetail;
     List<ProductList>? productList;
+    List<CartList>? cartList;
 
     ShopOrderDetailModel({
         this.responseCode,
@@ -21,6 +22,7 @@ class ShopOrderDetailModel {
         this.message,
         this.orderDetail,
         this.productList,
+        this.cartList,
     });
 
     factory ShopOrderDetailModel.fromJson(Map<String, dynamic> json) => ShopOrderDetailModel(
@@ -29,6 +31,7 @@ class ShopOrderDetailModel {
         message: json["message"],
         orderDetail: json["order_detail"] == null ? null : OrderDetail.fromJson(json["order_detail"]),
         productList: json["product_list"] == null ? [] : List<ProductList>.from(json["product_list"]!.map((x) => ProductList.fromJson(x))),
+        cartList: json["cart_list"] == null ? [] : List<CartList>.from(json["cart_list"]!.map((x) => CartList.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -37,6 +40,7 @@ class ShopOrderDetailModel {
         "message": message,
         "order_detail": orderDetail?.toJson(),
         "product_list": productList == null ? [] : List<dynamic>.from(productList!.map((x) => x.toJson())),
+        "cart_list": cartList == null ? [] : List<dynamic>.from(cartList!.map((x) => x.toJson())),
     };
 }
 
@@ -209,5 +213,49 @@ class PriceDetail {
         "bprice": bprice,
         "discount": discount,
         "qty": qty,
+    };
+}
+
+class CartList {
+    int? id;
+    String? productImage;
+    String? productName;
+    String? proType;
+    String? subCategoryName;
+    String? categoryName;
+    String? prescriptionRequire;
+    PriceDetail? priceDetail;
+
+    CartList({
+        this.id,
+        this.productImage,
+        this.productName,
+        this.proType,
+        this.subCategoryName,
+        this.categoryName,
+        this.prescriptionRequire,
+        this.priceDetail,
+    });
+
+    factory CartList.fromJson(Map<String, dynamic> json) => CartList(
+        id: json["id"],
+        productImage: json["product_image"],
+        productName: json["product_name"],
+        proType: json["pro_type"],
+        subCategoryName: json["sub_category_name"],
+        categoryName: json["category_name"],
+        prescriptionRequire: json["prescription_require"],
+        priceDetail: json["price_detail"] == null ? null : PriceDetail.fromJson(json["price_detail"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "product_image": productImage,
+        "product_name": productName,
+        "pro_type": proType,
+        "sub_category_name": subCategoryName,
+        "category_name": categoryName,
+        "prescription_require": prescriptionRequire,
+        "price_detail": priceDetail?.toJson(),
     };
 }

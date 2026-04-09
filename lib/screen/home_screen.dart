@@ -20,6 +20,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../model/font_family_model.dart';
 import '../controller_doctor/add_doctor_detail_controller.dart';
@@ -33,6 +34,9 @@ import 'bottombarpro_screen.dart';
 import 'category_screen.dart';
 import 'home_search_screen.dart';
 import 'our_product.dart';
+import 'our_product_checkout_screen.dart';
+import 'health_camp_screen.dart';
+import 'upload_prescription_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -493,7 +497,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        //navigate to cart page..
+                        final cartData = getData.read("OurProductCart");
+                        if (cartData != null && cartData is List && cartData.isNotEmpty) {
+                          Get.to(() => const OurProductCheckoutScreen());
+                        } else {
+                          Fluttertoast.showToast(msg: "Your cart is empty");
+                        }
                       },
                       child: const Icon(Icons.shopping_cart_outlined, size: 30, color: Colors.white),
                     ),
@@ -526,7 +535,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               labelPadding: const EdgeInsets.symmetric(horizontal: 10),
               
               onTap: (index) {
-                if (index == 3) {
+                if (index == 1) {
+                  Get.to(() => const UploadPrescriptionScreen());
+                } else if (index == 2) {
+                  Get.to(() => const HealthCampScreen());
+                } else if (index == 3) {
                   Get.to(() => const OurProduct());
                 }
               },
@@ -556,7 +569,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: _buildQuickActionCard(
                   title: "Upload Prescription\n& Order",
                   icon: Icons.camera_alt_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => const UploadPrescriptionScreen());
+                  },
                 ),
               ),
               const SizedBox(width: 10),
@@ -565,7 +580,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   title: "Order Medicines",
                   subtitle: "(Fast Delivery)",
                   icon: Icons.medication,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => const OurProduct());
+                  },
                 ),
               ),
             ],
@@ -577,7 +594,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: _buildQuickActionCard(
                   title: "Book\nLab Tests",
                   icon: Icons.science_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => const LabCategoryScreen());
+                  },
                 ),
               ),
               const SizedBox(width: 10),
@@ -585,7 +604,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: _buildQuickActionCard(
                   title: "Consult\nDoctors Online",
                   icon: Icons.medical_services_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => const AllCategoriesScreen());
+                  },
                 ),
               ),
             ],

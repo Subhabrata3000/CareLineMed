@@ -12,7 +12,26 @@ import '../../../utils/custom_colors.dart';
 
 class StoreWiseScreen extends StatefulWidget {
   final String orderId;
-  const StoreWiseScreen({super.key, required this.orderId});
+  final String doctorId;
+  final String? statusSummary;
+  final String? totPriceSummary;
+  final String? nameSummary;
+  final String? addressSummary;
+  final String? dateSummary;
+  final String? totProductSummary;
+  final String? imageSummary;
+  const StoreWiseScreen({
+    super.key,
+    required this.orderId,
+    required this.doctorId,
+    this.statusSummary,
+    this.totPriceSummary,
+    this.nameSummary,
+    this.addressSummary,
+    this.dateSummary,
+    this.totProductSummary,
+    this.imageSummary,
+  });
 
   @override
   State<StoreWiseScreen> createState() => _StoreWiseScreenState();
@@ -38,7 +57,11 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
   Future _functionApi() async {
     currency = getData.read("currency");
     setState(() {});
-    shopOrderDetailController.shopOrderDetailApi(uid: "${getData.read("UserLogin")["id"]}", orderId: widget.orderId);
+    shopOrderDetailController.shopOrderDetailApi(
+      uid: "${getData.read("UserLogin")["id"]}", 
+      orderId: widget.orderId, 
+      doctorId: widget.doctorId,
+    );
   }
 
   @override
@@ -69,6 +92,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
               shopOrderDetailController.shopOrderDetailApi(
                 uid: "${getData.read("UserLogin")["id"]}",
                 orderId: widget.orderId,
+                doctorId: widget.doctorId,
               );
             },
           );
@@ -79,13 +103,13 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: GetBuilder<ShopOrderDetailController>(
               builder: (shopOrderDetailController) {
+                bool isFallback = shopOrderDetailController.shopOrderDetailModel?.orderDetail == null;
                 return shopOrderDetailController.isLoading
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: Get.height * 0.02),
-                          shopOrderDetailController.shopOrderDetailModel!.productList!.isNotEmpty
-                              ? Container(
+                          Container(
                                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -103,12 +127,88 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                         ),
                                       ),
                                       SizedBox(height: 10),
-                                      ListView.separated(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: shopOrderDetailController.shopOrderDetailModel!.productList!.length,
-                                        separatorBuilder: (context, index) => Divider(color: greyColor),
-                                        itemBuilder: (context, index) {
+                                      shopOrderDetailController.productList.isEmpty
+                                          ? (isFallback ? Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    height: 60,
+                                                    width: 60,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Colors.grey.withOpacity(0.1),
+                                                    ),
+                                                    child: widget.imageSummary != null && widget.imageSummary!.isNotEmpty
+                                                        ? ClipRRect(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            child: Image.network(
+                                                              "${Config.imageBaseurlDoctor}${widget.imageSummary}",
+                                                              fit: BoxFit.cover,
+                                                              errorBuilder: (context, error, stackTrace) => Icon(Icons.shopping_bag, color: gradient.defoultColor),
+                                                            ),
+                                                          )
+                                                        : Icon(Icons.shopping_bag, color: gradient.defoultColor),
+                                                  ),
+                                                  SizedBox(width: 15),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          "${widget.nameSummary ?? 'Careline Store'}",
+                                                          style: TextStyle(
+                                                            fontFamily: FontFamily.gilroyBold,
+                                                            fontSize: 16,
+                                                            color: BlackColor,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 5),
+                                                        Text(
+                                                          "${widget.dateSummary ?? ''} • ${widget.totProductSummary ?? '1'} Items",
+                                                          style: TextStyle(
+                                                            fontFamily: FontFamily.gilroyMedium,
+                                                            fontSize: 13,
+                                                            color: greytext,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 5),
+                                                        Text(
+                                                          "$currency ${widget.totPriceSummary ?? '0.00'}",
+                                                          style: TextStyle(
+                                                            fontFamily: FontFamily.gilroyBold,
+                                                            fontSize: 16,
+                                                            color: gradient.defoultColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) : SizedBox(
+                                              height: 100,
+                                              child: Center(
+                                                child: Text(
+                                                  "No products found for this order".tr,
+                                                  style: TextStyle(
+                                                    fontFamily: FontFamily.gilroyMedium,
+                                                    color: greycolor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ))
+                                          : ListView.separated(
+                                              physics: NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: shopOrderDetailController.productList.length,
+                                              separatorBuilder: (context, index) => Divider(color: greyColor),
+                                              itemBuilder: (context, index) {
                                           return Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
@@ -127,7 +227,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                     placeholderCacheHeight: 80,
                                                     placeholderCacheWidth: 80,
                                                     placeholderFit: BoxFit.cover,
-                                                    image: "${Config.imageBaseurlDoctor}${shopOrderDetailController.shopOrderDetailModel!.productList![index].productImage}",
+                                                    image: "${Config.imageBaseurlDoctor}${shopOrderDetailController.productList[index].productImage}",
                                                     height: 60,
                                                     width: 60,
                                                     fit: BoxFit.cover,
@@ -141,7 +241,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                   mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     // SizedBox(height: 8),
-                                                    shopOrderDetailController.shopOrderDetailModel!.productList![index].prescriptionRequire == "Unrequired"
+                                                    shopOrderDetailController.productList[index].prescriptionRequire == "Unrequired"
                                                       ? SizedBox()
                                                       : Row(
                                                         children: [
@@ -166,17 +266,19 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Text(
-                                                          "${shopOrderDetailController.shopOrderDetailModel!.productList![index].productName}",
-                                                          style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontFamily: FontFamily.gilroyBold,
-                                                            color: BlackColor,
+                                                        Expanded(
+                                                          child: Text(
+                                                            "${shopOrderDetailController.productList[index].productName}",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontFamily: FontFamily.gilroyBold,
+                                                              color: BlackColor,
+                                                            ),
+                                                            overflow: TextOverflow.ellipsis,
                                                           ),
-                                                          overflow: TextOverflow.ellipsis,
                                                         ),
                                                         Text(
-                                                          "${shopOrderDetailController.shopOrderDetailModel!.productList![index].proType}",
+                                                          "${shopOrderDetailController.productList[index].proType}",
                                                           style: TextStyle(
                                                             fontFamily: FontFamily.gilroyMedium,
                                                             color: greycolor,
@@ -193,7 +295,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               Text(
-                                                                "${shopOrderDetailController.shopOrderDetailModel!.productList![index].priceDetail!.title}",
+                                                                "${shopOrderDetailController.productList[index].priceDetail!.title}",
                                                                 style: TextStyle(
                                                                   fontFamily: FontFamily.gilroyMedium,
                                                                   color: greycolor,
@@ -205,7 +307,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                                 children: [
                                                                   RichText(
                                                                     text: TextSpan(
-                                                                      text: "$currency${shopOrderDetailController.shopOrderDetailModel!.productList![index].priceDetail!.price} ",
+                                                                      text: "$currency${shopOrderDetailController.productList[index].priceDetail!.price} ",
                                                                       style: TextStyle(
                                                                         fontSize: 16,
                                                                         fontFamily: FontFamily.gilroyBold,
@@ -213,7 +315,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                                       ),
                                                                       children: <TextSpan>[
                                                                         TextSpan(
-                                                                          text: "$currency${shopOrderDetailController.shopOrderDetailModel!.productList![index].priceDetail!.bprice}",
+                                                                          text: "$currency${shopOrderDetailController.productList[index].priceDetail!.bprice}",
                                                                           style: TextStyle(
                                                                             fontSize: 14,
                                                                             fontFamily: FontFamily.gilroyMedium,
@@ -233,7 +335,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                                       borderRadius: BorderRadius.circular(60),
                                                                     ),
                                                                     child: Text(
-                                                                      "${shopOrderDetailController.shopOrderDetailModel!.productList![index].priceDetail!.discount}% OFF",
+                                                                      "${shopOrderDetailController.productList[index].priceDetail!.discount}% OFF",
                                                                       style: TextStyle(
                                                                         color: WhiteColor,
                                                                         fontSize: 11,
@@ -261,7 +363,7 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                                             ),
                                                             SizedBox(height: 3),
                                                             Text(
-                                                              "${shopOrderDetailController.shopOrderDetailModel!.productList![index].priceDetail!.qty}",
+                                                              "${shopOrderDetailController.productList[index].priceDetail!.qty}",
                                                               style: TextStyle(
                                                                 fontSize: 15,
                                                                 fontFamily: FontFamily.gilroyBold,
@@ -283,10 +385,9 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                       ),
                                     ],
                                   ),
-                                )
-                              : SizedBox(),
+                                ),
 
-                          if (shopOrderDetailController.shopOrderDetailModel!.orderDetail!.medicinePrescription!.isNotEmpty)...[
+                          if (shopOrderDetailController.shopOrderDetailModel?.orderDetail?.medicinePrescription != null && shopOrderDetailController.shopOrderDetailModel!.orderDetail!.medicinePrescription!.isNotEmpty)...[
                             SizedBox(height: Get.height * 0.02),
                             Container(
                               height: 150,
@@ -347,52 +448,81 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                               ),
                             ),
                           ],
-                          SizedBox(height: Get.height * 0.02),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            width: Get.size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: WhiteColor,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Order Status".tr,
-                                  style: TextStyle(
-                                    fontFamily: FontFamily.gilroyBold,
-                                    fontSize: 14,
-                                    color: gradient.defoultColor,
-                                  ),
-                                ),
-                                SizedBox(height: 13),
-                                stepper(status: int.parse("${shopOrderDetailController.shopOrderDetailModel!.orderDetail!.status}")),
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(height: Get.height * 0.02),
-
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            width: Get.size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: WhiteColor,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Payment & Address Info".tr,
-                                  style: TextStyle(
-                                    fontFamily: FontFamily.gilroyBold,
-                                    fontSize: 14,
-                                    color: gradient.defoultColor,
-                                  ),
-                                ),
-                                SizedBox(height: 13),
+                          // --- Fallback Display Variables ---
+                          Builder(
+                            builder: (context) {
+                              String? displayStatus = shopOrderDetailController.shopOrderDetailModel?.orderDetail?.status ?? widget.statusSummary;
+                              
+                              return Column(
+                                children: [
+                                  if (displayStatus != null)...[
+                                    SizedBox(height: Get.height * 0.02),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                      width: Get.size.width,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: WhiteColor,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Order Status".tr,
+                                            style: TextStyle(
+                                              fontFamily: FontFamily.gilroyBold,
+                                              fontSize: 14,
+                                              color: gradient.defoultColor,
+                                            ),
+                                          ),
+                                          SizedBox(height: 13),
+                                          stepper(status: int.parse(displayStatus)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                  if (shopOrderDetailController.shopOrderDetailModel?.orderDetail != null || isFallback)...[
+                                    SizedBox(height: Get.height * 0.02),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                      width: Get.size.width,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: WhiteColor,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Payment & Address Info".tr,
+                                            style: TextStyle(
+                                              fontFamily: FontFamily.gilroyBold,
+                                              fontSize: 14,
+                                              color: gradient.defoultColor,
+                                            ),
+                                          ),
+                                          SizedBox(height: 13),
+                                          if (isFallback) ...[
+                                            if (widget.totPriceSummary != null)
+                                              billSummaryTextDetaile(
+                                                title: "Total Price".tr,
+                                                subtitle: "$currency ${widget.totPriceSummary}",
+                                              ),
+                                            if (widget.nameSummary != null) ...[
+                                              SizedBox(height: 5),
+                                              billSummaryTextDetaile(
+                                                title: "Store".tr,
+                                                subtitle: "${widget.nameSummary}",
+                                              ),
+                                            ],
+                                            if (widget.addressSummary != null) ...[
+                                              SizedBox(height: 5),
+                                              billSummaryTextDetaile(
+                                                title: "Address".tr,
+                                                subtitle: "${widget.addressSummary}",
+                                              ),
+                                            ],
+                                          ] else ...[
                                 if(shopOrderDetailController.shopOrderDetailModel!.orderDetail!.wallet != 0)...[
                                   billSummaryTextDetaile(
                                     title: "Wallet Amount".tr,
@@ -464,12 +594,18 @@ class _StoreWiseScreenState extends State<StoreWiseScreen> {
                                   ),
                                 ],
                               ],
-                            ),
+                            ],
                           ),
-                          SizedBox(height: Get.height * 0.02),
-                        ],
-                      )
-                    : SizedBox(
+                        ),
+                      ],
+                    ],
+                  );
+                }
+              ),
+              SizedBox(height: Get.height * 0.02),
+            ],
+          )
+        : SizedBox(
                         height: Get.height,
                         width: Get.width,
                         child: Center(

@@ -11,20 +11,21 @@ class ShopOrderDetailController extends GetxController implements GetxService {
 
   ShopOrderDetailModel? shopOrderDetailModel;
   bool isLoading = false;
-  List<Product> productList = [];
+  List<dynamic> productList = [];
 
-  shopOrderDetailApi({required String uid, required String orderId}) async{
+  shopOrderDetailApi({required String uid, required String orderId, required String doctorId}) async{
     Map body = {
       "uid": uid,
       "order_id": orderId,
+      "doctor_id": doctorId,
     };
 
     Map<String, String> userHeader = {"Content-type": "application/json", "Accept": "application/json"};
     var response = await http.post(Uri.parse(Config.baseUrlDoctor + Config.shopOrderDetail), body: jsonEncode(body), headers: userHeader);
 
-    debugPrint("=========== myOrderList Api url ============ ${Config.baseUrlDoctor + Config.shopOrderDetail}");
-    debugPrint("========== myOrderList Api body ============ $body");
-    debugPrint("========= myOrderList Api respons ========== ${response.body}");
+    debugPrint("=========== shopOrderDetail Api url ============ ${Config.baseUrlDoctor + Config.shopOrderDetail}");
+    debugPrint("========== shopOrderDetail Api body ============ $body");
+    debugPrint("========= shopOrderDetail Api respons ========== ${response.body}");
 
     var data = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -32,7 +33,14 @@ class ShopOrderDetailController extends GetxController implements GetxService {
         shopOrderDetailModel = shopOrderDetailModelFromJson(response.body);
         if (shopOrderDetailModel!.result == true) {
           isLoading = true;
-          productList = shopOrderDetailModel!.productList!.cast<Product>();
+          // Handle both product_list (for shop orders) and cart_list (for product orders)
+          if (shopOrderDetailModel!.productList != null && shopOrderDetailModel!.productList!.isNotEmpty) {
+             productList = shopOrderDetailModel!.productList!;
+          } else if (shopOrderDetailModel!.cartList != null && shopOrderDetailModel!.cartList!.isNotEmpty) {
+             productList = shopOrderDetailModel!.cartList!;
+          } else {
+             productList = [];
+          }
           update();
         } else {
           Fluttertoast.showToast(msg: shopOrderDetailModel!.message.toString());

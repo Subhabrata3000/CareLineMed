@@ -150,8 +150,19 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
                           shopOrderDetailController.shopOrderDetailApi(
                             uid: "${getData.read("UserLogin")["id"]}",
                             orderId: "${myOrderListController.myOrderListModel!.running![index].id}",
+                            doctorId: "${myOrderListController.myOrderListModel!.running![index].doctorId}",
                           );
-                          Get.to(StoreWiseScreen(orderId: myOrderListController.myOrderListModel!.running![index].id.toString()));
+                          Get.to(StoreWiseScreen(
+                            orderId: myOrderListController.myOrderListModel!.running![index].id.toString(),
+                            doctorId: myOrderListController.myOrderListModel!.running![index].doctorId.toString(),
+                            statusSummary: myOrderListController.myOrderListModel!.running![index].status.toString(),
+                            totPriceSummary: myOrderListController.myOrderListModel!.running![index].totPrice.toString(),
+                            nameSummary: myOrderListController.myOrderListModel!.running![index].name.toString(),
+                            addressSummary: myOrderListController.myOrderListModel!.running![index].address.toString(),
+                            dateSummary: myOrderListController.myOrderListModel!.running![index].date.toString(),
+                            totProductSummary: myOrderListController.myOrderListModel!.running![index].totProduct.toString(),
+                            imageSummary: myOrderListController.myOrderListModel!.running![index].image.toString(),
+                          ));
                         },
                         child: Container(
                           width: Get.size.width,
@@ -173,13 +184,17 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
                                       fontFamily: FontFamily.gilroyMedium,
                                     ),
                                   ),
-                                  Spacer(),
-                                  Text(
-                                    "${"Order ID".tr}: #${myOrderListController.myOrderListModel!.running![index].id}",
-                                    style: TextStyle(
-                                      fontFamily: FontFamily.gilroyBold,
-                                      color: BlackColor,
-                                      fontSize: 16,
+                                  Expanded(
+                                    child: Text(
+                                      "${"Order ID".tr}: #${myOrderListController.myOrderListModel!.running![index].id}",
+                                      style: TextStyle(
+                                        fontFamily: FontFamily.gilroyBold,
+                                        color: BlackColor,
+                                        fontSize: 16,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.end,
                                     ),
                                   ),
                                 ],
@@ -309,8 +324,19 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
                                         shopOrderDetailController.shopOrderDetailApi(
                                           uid: "${getData.read("UserLogin")["id"]}",
                                           orderId: "${myOrderListController.myOrderListModel!.running![index].id}",
+                                          doctorId: "${myOrderListController.myOrderListModel!.running![index].doctorId}",
                                         );
-                                        Get.to(StoreWiseScreen(orderId: myOrderListController.myOrderListModel!.running![index].id.toString()));
+                                        Get.to(StoreWiseScreen(
+                                          orderId: myOrderListController.myOrderListModel!.running![index].id.toString(),
+                                          doctorId: myOrderListController.myOrderListModel!.running![index].doctorId.toString(),
+                                          statusSummary: myOrderListController.myOrderListModel!.running![index].status.toString(),
+                                          totPriceSummary: myOrderListController.myOrderListModel!.running![index].totPrice.toString(),
+                                          nameSummary: myOrderListController.myOrderListModel!.running![index].name.toString(),
+                                          addressSummary: myOrderListController.myOrderListModel!.running![index].address.toString(),
+                                          dateSummary: myOrderListController.myOrderListModel!.running![index].date.toString(),
+                                          totProductSummary: myOrderListController.myOrderListModel!.running![index].totProduct.toString(),
+                                          imageSummary: myOrderListController.myOrderListModel!.running![index].image.toString(),
+                                        ));
                                       },
                                       child: Container(
                                         height: 40,
@@ -401,8 +427,19 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
                         onTap: () {
                           shopOrderDetailController.shopOrderDetailApi(
                               uid: "${getData.read("UserLogin")["id"]}",
-                              orderId: myOrderListController.myOrderListModel!.complete![index].id.toString());
-                          Get.to(StoreWiseScreen(orderId: myOrderListController.myOrderListModel!.complete![index].id.toString()));
+                              orderId: myOrderListController.myOrderListModel!.complete![index].id.toString(),
+                              doctorId: myOrderListController.myOrderListModel!.complete![index].doctorId.toString());
+                          Get.to(StoreWiseScreen(
+                            orderId: myOrderListController.myOrderListModel!.complete![index].id.toString(),
+                            doctorId: myOrderListController.myOrderListModel!.complete![index].doctorId.toString(),
+                            statusSummary: myOrderListController.myOrderListModel!.complete![index].status.toString(),
+                            totPriceSummary: myOrderListController.myOrderListModel!.complete![index].totPrice.toString(),
+                            nameSummary: myOrderListController.myOrderListModel!.complete![index].name.toString(),
+                            addressSummary: myOrderListController.myOrderListModel!.complete![index].address.toString(),
+                            dateSummary: myOrderListController.myOrderListModel!.complete![index].date.toString(),
+                            totProductSummary: myOrderListController.myOrderListModel!.complete![index].totProduct.toString(),
+                            imageSummary: myOrderListController.myOrderListModel!.complete![index].image.toString(),
+                          ));
                         },
                         child: Container(
                           width: Get.size.width,
@@ -451,15 +488,18 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
                               ),
                               Row(
                                 children: [
-                                  Text(
-                                    "${"Order ID".tr}: #${myOrderListController.myOrderListModel!.complete![index].id}",
-                                    style: TextStyle(
-                                      fontFamily: FontFamily.gilroyBold,
-                                      color: BlackColor,
-                                      fontSize: 16,
+                                  Expanded(
+                                    child: Text(
+                                      "${"Order ID".tr}: #${myOrderListController.myOrderListModel!.complete![index].id}",
+                                      style: TextStyle(
+                                        fontFamily: FontFamily.gilroyBold,
+                                        color: BlackColor,
+                                        fontSize: 16,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  Spacer(),
                                 ],
                               ),
                               SizedBox(
@@ -563,8 +603,19 @@ class _MyOrderScreenState extends State<MyOrderScreen> with TickerProviderStateM
                                         shopOrderDetailController.shopOrderDetailApi(
                                           uid: "${getData.read("UserLogin")["id"]}",
                                           orderId: "${myOrderListController.myOrderListModel!.complete![index].id}",
+                                          doctorId: "${myOrderListController.myOrderListModel!.complete![index].doctorId}",
                                         );
-                                        Get.to(StoreWiseScreen(orderId: "${myOrderListController.myOrderListModel!.complete![index].id}"));
+                                        Get.to(StoreWiseScreen(
+                                          orderId: "${myOrderListController.myOrderListModel!.complete![index].id}",
+                                          doctorId: "${myOrderListController.myOrderListModel!.complete![index].doctorId}",
+                                          statusSummary: myOrderListController.myOrderListModel!.complete![index].status.toString(),
+                                          totPriceSummary: myOrderListController.myOrderListModel!.complete![index].totPrice.toString(),
+                                          nameSummary: myOrderListController.myOrderListModel!.complete![index].name.toString(),
+                                          addressSummary: myOrderListController.myOrderListModel!.complete![index].address.toString(),
+                                          dateSummary: myOrderListController.myOrderListModel!.complete![index].date.toString(),
+                                          totProductSummary: myOrderListController.myOrderListModel!.complete![index].totProduct.toString(),
+                                          imageSummary: myOrderListController.myOrderListModel!.complete![index].image.toString(),
+                                        ));
                                       },
                                       child: Container(
                                         height: 40,
